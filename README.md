@@ -1,4 +1,4 @@
-# mimall
+# MiMall
 
 ## Project setup
 ```
