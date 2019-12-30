@@ -22,7 +22,7 @@ export default {
     };
   },
   mounted() {
-    let url = "https://m.imooc.com/api/search/searchword";
+    let url = "https://www.imooc.com/activity/servicetime";
     // 当使用axios方式请求机会报错，因为慕课网不允许别人调用，所以存在跨域
     // axios(url).then(() => {});
     // jsonp不会报错，因为他不是请求，就是一段js脚本,等于是函数
