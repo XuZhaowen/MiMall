@@ -15,7 +15,8 @@ export default {
     HelloWorld
   },
   mounted() {
-    let url = "https://m.imooc.com/api/search/searchword";
+    let url =
+      "https://www.easy-mock.com/mock/5b012c1fe6e1035843cd3aff/mockapi/table/list";
     axios.get(url).then(() => {});
   }
 };
