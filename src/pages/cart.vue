@@ -1,10 +1,10 @@
 <template>
-  <div>orderConfim</div>
+  <div>cart</div>
 </template>
 
 <script>
 export default {
-  name: "orderConfim"
+  name: "cart"
 };
 </script>
 
