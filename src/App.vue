@@ -8,20 +8,27 @@
 <script>
 // import axios from "axios";
 // import jsonp from "jsonp"
-import storage from "./storage";
+// import storage from "./storage";
 
 export default {
   name: "app",
   components: {},
   data() {
-    return {};
+    return {
+      res: {}
+    };
   },
   mounted() {
     // storage.setItem('a',1);
     // storage.setItem('user',{a:1});
     // storage.setItem('abc',{a:1},'user');
     // storage.clear('a');
-    storage.clear("a", "user");
+    // storage.clear("a", "user");
+
+    // 本地集成mockjs实现数据mock
+    this.axios.get("/user/login").then(res => {
+      this.res = res;
+    });
   }
 };
 </script>
