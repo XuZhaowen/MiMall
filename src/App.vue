@@ -6,40 +6,17 @@
 </template>
 
 <script>
-// import axios from "axios";
-// import jsonp from "jsonp"
-// import storage from "./storage";
-
 export default {
   name: "app",
   components: {},
   data() {
-    return {
-      res: {}
-    };
+    return {};
   },
-  mounted() {
-    // storage.setItem('a',1);
-    // storage.setItem('user',{a:1});
-    // storage.setItem('abc',{a:1},'user');
-    // storage.clear('a');
-    // storage.clear("a", "user");
-
-    // 本地集成mockjs实现数据mock
-    this.axios.get("/user/login").then(res => {
-      this.res = res;
-    });
-  }
+  mounted() {}
 };
 </script>
 
 <style>
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+/* 导入scss文件 */
+@import "./assets/scss/reset.scss";
 </style>
