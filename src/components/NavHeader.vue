@@ -163,14 +163,17 @@ export default {
       this.axios
         .get("/products", {
           params: {
-            categoryId: "100012"
+            categoryId: "100012",
+            // 控制分页，一页的数据
+            pageSize: 6
           }
         })
         .then(res => {
+          this.phoneList = res.list;
           // 截取六条数据
-          if (res.list.length > 6) {
-            this.phoneList = res.list.slice(0, 6);
-          }
+          // if (res.list.length > 6) {
+          //   this.phoneList = res.list.slice(0, 6);
+          // }
         });
     },
     // 路由跳转
@@ -288,6 +291,8 @@ export default {
             z-index: 10;
             // 添加动画
             transition: all 0.5s;
+            // 解决5-1的bug
+            background-color: $colorG;
 
             .product {
               // 相对定位，使线跑在每个元素内
