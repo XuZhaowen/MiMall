@@ -3,6 +3,34 @@
     <!-- container容器,限定安全距离 -->
     <div class="container">
       <div class="swiper-box">
+        <div class="nav-menu">
+          <ul class="menu-wrap">
+            <li class="menu-item">
+              <a href="javascript:;">手机 电话卡</a>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:;">电视 盒子</a>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:;">笔记本 平板</a>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:;">家电 插线板</a>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:;">出行 穿戴</a>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:;">耳机 音响</a>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:;">电源 配件</a>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:;">生活 箱包</a>
+            </li>
+          </ul>
+        </div>
         <swiper :options="swiperOption">
           <!-- slides -->
           <swiper-slide v-for="(item,index)  in slideList" :key="index">
@@ -95,13 +123,53 @@ export default {
 </script>
 
 <style lang="scss">
+@import "./../assets/scss/config.scss";
+@import "./../assets/scss/mixin.scss";
 .index {
   .swiper-box {
     .swiper-container {
       height: 451px;
+      // 控制大箭头位置
+      .swiper-button-prev {
+        left: 274px;
+      }
       img {
         width: 100%;
         height: 100%;
+      }
+    }
+    .nav-menu {
+      position: absolute;
+      width: 264px;
+      height: 451px;
+      background-color: #55585a7a;
+      // 显示在轮播图上方
+      z-index: 9;
+      padding: 26px 0;
+      // 解决padding增加的52px
+      box-sizing: border-box;
+      .menu-wrap {
+        .menu-item {
+          height: 50px;
+          line-height: 50px;
+          a {
+            position: relative;
+            font-size: 16px;
+            display: block;
+            color: $colorG;
+            padding-left: 30px;
+            &:after {
+              position: absolute;
+              right: 30px;
+              top: 17.5px;
+              content: "";
+              @include bgImg(10px, 15px, "/imgs/icon-arrow.png");
+            }
+          }
+          &:hover {
+            background-color: $colorA;
+          }
+        }
       }
     }
   }
