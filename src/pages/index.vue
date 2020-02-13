@@ -86,7 +86,7 @@
                 <div class="item-info">
                   <h3>{{item.name}}</h3>
                   <p>{{item.subtitle}}</p>
-                  <p class="price">{{item.price}}元</p>
+                  <p class="price" @click="addCart(item.id)">{{item.price}}元</p>
                 </div>
               </div>
             </div>
@@ -95,11 +95,27 @@
       </div>
     </div>
     <service-bar></service-bar>
+    <!-- Modal弹窗 -->
+    <modal
+      title="提示"
+      sureText="查看购物车"
+      btnType="1"
+      modalType="middlebody"
+      v-bind:showModal="showModal"
+      v-on:submit="goToCart"
+      v-on:cancel="showModal=false"
+    >
+      <!-- 插槽 template包裹 -->
+      <template v-slot:body>
+        <p>商品添加成功！</p>
+      </template>
+    </modal>
   </div>
 </template>
 
 <script>
 import ServiceBar from "./../components/ServiceBar";
+import Modal from "./../components/Modal";
 // 引入swiper
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import "swiper/dist/css/swiper.css";
@@ -108,6 +124,7 @@ export default {
   name: "index",
   components: {
     ServiceBar,
+    Modal,
     swiper,
     swiperSlide
   },
@@ -201,7 +218,8 @@ export default {
       phoneList: [
         [1, 1, 1, 1],
         [1, 1, 1, 1]
-      ]
+      ],
+      showModal: false
     };
   },
 
@@ -214,12 +232,31 @@ export default {
         .get("/products", {
           params: {
             categoryId: 100012,
-            pagaSize: 8
+            pagaSize: 14
           }
         })
         .then(res => {
+          res.list = res.list.slice(6, 14);
           this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)];
         });
+    },
+
+    addCart() {
+      this.showModal = true;
+      return;
+      //   this.axios
+      //     .post("/carts", {
+      //       productId: id,
+      //       selected: true
+      //     })
+      //     .then(() => {})
+      //     .catch(() => {
+      //       this.showModal = true;
+      //     });
+    },
+
+    goToCart() {
+      this.$router.push("/cart");
     }
   }
 };
