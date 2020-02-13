@@ -33,7 +33,7 @@
                 <li class="product" v-for="(item,index) in phoneList" :key="index">
                   <a :href="'/#/product/'+item.id" target="_blank">
                     <div class="pro-img">
-                      <img :src="item.mainImage" :alt="item.subtitle" />
+                      <img v-lazy="item.mainImage" :alt="item.subtitle" />
                     </div>
                     <div class="pro-name">{{item.name}}</div>
                     <div class="pro-price">{{item.price | currency}}</div>
@@ -56,7 +56,7 @@
                   <a href target="_blank">
                     <div class="pro-img">
                       <img
-                        src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/6917267948c54c647d2009a98637aac6.jpg?thumb=1&w=185&h=127"
+                        v-lazy="'//cdn.cnbj1.fds.api.mi-img.com/mi-mall/6917267948c54c647d2009a98637aac6.jpg?thumb=1&w=185&h=127'"
                       />
                     </div>
                     <div class="pro-name">Redmi 红米电视 70英寸 R70A</div>
@@ -67,7 +67,7 @@
                   <a href target="_blank">
                     <div class="pro-img">
                       <img
-                        src="//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/00f597a8725eee9245e383c35cd4f7b6.jpg?thumb=1&w=185&h=127"
+                        v-lazy="'//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/00f597a8725eee9245e383c35cd4f7b6.jpg?thumb=1&w=185&h=127'"
                       />
                     </div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
@@ -78,7 +78,7 @@
                   <a href target="_blank">
                     <div class="pro-img">
                       <img
-                        src="//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/a40904b6a053b73b631a152334388d0e.jpg?thumb=1&w=185&h=127"
+                        v-lazy="'//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/a40904b6a053b73b631a152334388d0e.jpg?thumb=1&w=185&h=127'"
                       />
                     </div>
                     <div class="pro-name">小米全面屏电视E55A</div>
@@ -89,7 +89,7 @@
                   <a href target="_blank">
                     <div class="pro-img">
                       <img
-                        src="//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/e8f4e22f6d591825f8f150b3309c750b.png?thumb=1&w=185&h=127"
+                        v-lazy="'//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/e8f4e22f6d591825f8f150b3309c750b.png?thumb=1&w=185&h=127'"
                       />
                     </div>
                     <div class="pro-name">小米电视4A 32英寸</div>
@@ -100,7 +100,7 @@
                   <a href target="_blank">
                     <div class="pro-img">
                       <img
-                        src="//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/bf72a3e9a6e799cb71ecfa7d80465351.jpg?thumb=1&w=185&h=127"
+                        v-lazy="'//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/bf72a3e9a6e799cb71ecfa7d80465351.jpg?thumb=1&w=185&h=127'"
                       />
                     </div>
                     <div class="pro-name">小米电视4A 55英寸</div>
@@ -111,7 +111,7 @@
                   <a href target="_blank">
                     <div class="pro-img">
                       <img
-                        src="//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/bd922870295a97a0972eaba5af92129e.jpg?thumb=1&w=185&h=127"
+                        v-lazy="'//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/bd922870295a97a0972eaba5af92129e.jpg?thumb=1&w=185&h=127'"
                       />
                     </div>
                     <div class="pro-name">小米电视4A 65英寸</div>
