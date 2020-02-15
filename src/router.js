@@ -4,6 +4,7 @@ import Home from './pages/home'
 import Index from './pages/index'
 import Product from './pages/product'
 import Detail from './pages/detail'
+import Login from './pages/login'
 
 import Order from './pages/order'
 import OederList from './pages/orderList'
@@ -45,6 +46,11 @@ export default new Router({
             path: '/cart',
             name: 'cart',
             component: Cart
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: Login
         },
         {
             path: '/order',

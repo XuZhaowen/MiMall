@@ -2,7 +2,8 @@ import Vue from 'vue'
 import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import VueLazyLoad from 'vue-lazyload';
+import VueLazyLoad from 'vue-lazyload'
+import VueCookie from 'vue-cookie'
 import App from './App.vue'
 // import env from './env'
 
@@ -28,10 +29,14 @@ axios.interceptors.response.use(function (response) {
   } else if (res.status == 10) {
     window.location.href = '/#/login';
   } else {
+    // 报错
     alert(res.msg);
+    return Promise.reject(res);
   }
 })
 
+// 加载cookie
+Vue.use(VueCookie);
 Vue.use(VueLazyLoad, {
   loading: '/imgs/loading-svg/loading-bars.svg'
 });
