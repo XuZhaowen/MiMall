@@ -9,7 +9,7 @@ import App from './App.vue'
 
 
 //mock开关
-const mock = true;
+const mock = false;
 if (mock) {
   require('./mock/api');
 }

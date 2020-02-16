@@ -86,9 +86,9 @@ export default {
       this.axios
         .post("/user/register", {
           // 名字相同，用简写
-          username: "admin1",
-          password: "admin1",
-          email: "admin1@163.com"
+          username: "kobe",
+          password: "24",
+          email: "kobe@163.com"
         })
         .then(() => {
           alert("注册成功!");
