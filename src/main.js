@@ -18,16 +18,20 @@ if (mock) {
 axios.defaults.baseURL = '/api';
 // 超时
 axios.defaults.timeout = 8000;
-// 根據環境變量獲取不同的請求地址
+// 根据环境变量获取不同的请求地址
 // axios.defaults.baseURL = env.baseURL;
 
 // 接口错误拦截
 axios.interceptors.response.use(function (response) {
   let res = response.data;
+  let path = location.hash;
   if (res.status == 0) {
     return res.data;
   } else if (res.status == 10) {
-    window.location.href = '/#/login';
+    // 判断当前路径不是首页时，跳转到登录页面
+    if (path != '#/index') {
+      window.location.href = '/#/login';
+    }
   } else {
     // 报错
     alert(res.msg);
