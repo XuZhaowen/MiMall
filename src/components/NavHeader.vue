@@ -13,7 +13,8 @@
           <a href="javascript:;" v-if="!username" @click="login()">登录</a>
           <a href="javascript:;" v-if="username">我的订单</a>
           <a href="javascript:;" class="my-cart" @click="goToCart()">
-            <span class="icon-cart"></span>购物车
+            <span class="icon-cart"></span>
+            购物车({{cartCount}})
           </a>
         </div>
       </div>
@@ -139,9 +140,18 @@ export default {
 
   data() {
     return {
-      username: "kevin",
       phoneList: []
     };
+  },
+  // 解决延迟问题
+  computed: {
+    username() {
+      return this.$store.state.username;
+    },
+    // 购物车数量作同样的处理
+    cartCount() {
+      return this.$store.state.cartCount;
+    }
   },
   // 局部过滤器处理返回的数字
   filters: {
