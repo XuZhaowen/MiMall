@@ -45,7 +45,7 @@
           <!-- slides -->
           <swiper-slide v-for="(item,index)  in slideList" :key="index">
             <!-- 用了指令，字符串要加单引号 -->
-            <a :href="'/#/product'+item.id">
+            <a :href="'/#/product/'+item.id">
               <img v-lazy="item.img" />
             </a>
           </swiper-slide>
@@ -219,6 +219,7 @@ export default {
         [1, 1, 1, 1],
         [1, 1, 1, 1]
       ],
+      res: {},
       showModal: false
     };
   },
@@ -232,10 +233,11 @@ export default {
         .get("/products", {
           params: {
             categoryId: 100012,
-            pagaSize: 14
+            pageSize: 18
           }
         })
         .then(res => {
+          // this.res = res;
           res.list = res.list.slice(6, 14);
           this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)];
         });
