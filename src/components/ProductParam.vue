@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-bar">
+  <div class="nav-bar" :class="{'is_fixed':isFixed}">
     <div class="container">
       <div class="product-title">
         <span class="main-name">小米8 透明探索版</span>
@@ -23,7 +23,31 @@
 
 <script>
 export default {
-  name: "nav-bar"
+  name: "nav-bar",
+  data() {
+    return {
+      // 默认为false
+      isFixed: false
+    };
+  },
+  mounted() {
+    // 初始化方法，滚动的时候能监测到
+    window.addEventListener("scroll", this.initHeight);
+  },
+  methods: {
+    // 获取页面高度
+    initHeight() {
+      let height =
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        window.pageYOffset;
+      this.isFixed = height > 152 ? true : false;
+    }
+  },
+  // 为了避免浪费资源，再退出当前页面之后不触发这个方法
+  destroyed() {
+    window.removeEventListener("scroll", this.initHeight, false);
+  }
 };
 </script>
 
@@ -35,13 +59,23 @@ export default {
   // 使文字居中
   line-height: 70px;
   border-top: 1px solid $colorH;
+  background-color: $colorG;
+  // 当吸顶的时候下边增加模糊值
+  box-shadow: 0 5px 5px gray;
+  // 给initHeight设置样式
+  &.is_fixed {
+    // 绝对定位
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
   .container {
     // display: flex;
     // justify-content: space-between;
     @include flex(space-between);
     .product-title {
       span {
-        margin-right: 5px;
+        margin-right: 11px;
       }
       .main-name {
         font-size: $fontH;
@@ -54,7 +88,7 @@ export default {
     }
     .product-param {
       span {
-        margin: 5px;
+        margin: 11px;
         color: $colorD;
       }
       a {
@@ -66,7 +100,7 @@ export default {
         margin-left: 5px;
       }
       .user {
-        margin-right: 5px;
+        margin-right: 11px;
       }
     }
   }

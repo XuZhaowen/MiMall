@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div class="product">
     <ProductParams>
       <template v-slot:buy>
         <button class="btn">立即购买</button>
       </template>
     </ProductParams>
+    <div class="h">Kobe</div>
   </div>
 </template>
 
@@ -18,4 +19,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+@import "./../assets/scss/config.scss";
+.product {
+  .h {
+    height: 500px;
+    background-color: lightblue;
+  }
+}
+</style>
