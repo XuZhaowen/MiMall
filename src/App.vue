@@ -19,7 +19,8 @@ export default {
   },
   methods: {
     getUser() {
-      this.axios.get("/user").then(res => {
+      // 设置默认值，保证不登录也不会报错
+      this.axios.get("/user").then((res = {}) => {
         // to-do 保存到vuex里面
         this.$store.dispatch("saveUsername", res.username);
       });

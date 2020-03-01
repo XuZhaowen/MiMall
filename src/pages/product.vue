@@ -1,15 +1,15 @@
 <template>
   <div class="product">
-    <ProductParams>
+    <ProductParams v-bind:title="product.name">
       <template v-slot:buy>
-        <button class="btn">立即购买</button>
+        <button class="btn" @click="buy">立即购买</button>
       </template>
     </ProductParams>
     <div class="content">
       <!-- 产品配置信息 -->
       <div class="bgImg-one">
-        <h3>小米8</h3>
-        <h4>8周年旗舰店</h4>
+        <h3>{{product.name}}</h3>
+        <h4>{{product.subtitle}}</h4>
         <p>
           <a href="jac=vascript:;">全球首款双频 GPS</a>
           <span>|</span>
@@ -20,7 +20,7 @@
           <a href="jac=vascript:;">红外人脸识别</a>
         </p>
         <div class="price">
-          <h5>￥2599</h5>
+          <h5>￥{{product.price}}</h5>
           <h6>￥2999</h6>
         </div>
       </div>
@@ -61,10 +61,10 @@
         </p>
         <div class="video-bg">
           <img src="/imgs/product/gallery-1.png" @click="showSlide='slideDown'" alt />
-          <div class="video-box">
-            <div class="overlay" v-if="showSlide=='slideDown'"></div>
+          <div class="video-box" v-show="showSlide">
+            <div class="overlay"></div>
             <div class="video" v-bind:class="showSlide">
-              <span class="icon-close" @click="showSlide='slideUp'"></span>
+              <span class="icon-close" @click="closeVideo"></span>
               <video src="/imgs/product/video.mp4" muted controls autoplay></video>
             </div>
           </div>
@@ -88,7 +88,8 @@ export default {
   },
   data() {
     return {
-      showSlide: "",
+      showSlide: "", //控制动画效果
+      product: {}, //商品信息
       swiperOption: {
         autoplay: true, //可选选项，自动滑动
         slidesPerView: 3, //一页图片张数
@@ -100,6 +101,29 @@ export default {
         }
       }
     };
+  },
+  mounted() {
+    this.getProductInfo();
+  },
+  methods: {
+    getProductInfo() {
+      let id = this.$route.params.id;
+      // 使用字符串模板拼接id
+      this.axios.get(`/products/${id}`).then(res => {
+        this.product = res;
+      });
+    },
+    buy() {
+      let id = this.$route.params.id;
+      this.$router.push(`/detail/${id}`);
+    },
+    // 解决视频窗口的bug
+    closeVideo() {
+      this.showSlide = "slideUp";
+      setTimeout(() => {
+        this.showSlide = "";
+      }, 600);
+    }
   }
 };
 </script>

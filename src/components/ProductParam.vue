@@ -2,11 +2,11 @@
   <div class="nav-bar" :class="{'is_fixed':isFixed}">
     <div class="container">
       <div class="product-title">
-        <span class="main-name">小米8 透明探索版</span>
+        <span class="main-name">{{title}}</span>
         <span class="sx">|</span>
-        <span class="little-name">小米8</span>
+        <span class="little-name">{{title}}</span>
         <span class="sx">|</span>
-        <span class="little-name">小米8 SE</span>
+        <span class="little-name">{{title}}</span>
       </div>
       <div class="product-param">
         <a href="javascript:;">概述</a>
@@ -24,6 +24,10 @@
 <script>
 export default {
   name: "nav-bar",
+  // 接收数据
+  props: {
+    title: String
+  },
   data() {
     return {
       // 默认为false
