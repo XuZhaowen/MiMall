@@ -60,11 +60,11 @@
           <br />更能AI 精准分析视频内容，15个场景智能匹配背景音效。
         </p>
         <div class="video-bg">
-          <img src="/imgs/product/gallery-1.png" @click="showSlide=true" alt />
+          <img src="/imgs/product/gallery-1.png" @click="showSlide='slideDown'" alt />
           <div class="video-box">
-            <div class="overlay" v-if="showSlide"></div>
-            <div class="video" v-bind:class="{'slide':showSlide}">
-              <span class="icon-close" @click="showSlide=false"></span>
+            <div class="overlay" v-if="showSlide=='slideDown'"></div>
+            <div class="video" v-bind:class="showSlide">
+              <span class="icon-close" @click="showSlide='slideUp'"></span>
               <video src="/imgs/product/video.mp4" muted controls autoplay></video>
             </div>
           </div>
@@ -88,7 +88,7 @@ export default {
   },
   data() {
     return {
-      showSlide: false,
+      showSlide: "",
       swiperOption: {
         autoplay: true, //可选选项，自动滑动
         slidesPerView: 3, //一页图片张数
@@ -229,6 +229,29 @@ export default {
             opacity: 0.5;
             z-index: 10;
           }
+
+          // 使用animation动画实现,视频框的下拉和取消
+          @keyframes slideDown {
+            from {
+              top: -50%;
+              opacity: 0;
+            }
+            to {
+              top: 50%;
+              opacity: 1;
+            }
+          }
+
+          @keyframes slideUp {
+            from {
+              top: 50%;
+              opacity: 1;
+            }
+            to {
+              top: -50%;
+              opacity: 0;
+            }
+          }
           .video {
             z-index: 10;
             @include position(fixed);
@@ -241,19 +264,20 @@ export default {
             width: 1000px;
             height: 536px;
             // 初始透明度为0
-            opacity: 0;
-            // 设置动画，实现弹出视频和关闭视频效果
-            transition: all 0.6s;
-            // 现在就只需要控制slide的值
-            &.slide {
-              // 触发效果时，位置由-50%变为50%
+            opacity: 1;
+            &.slideDown {
+              animation: slideDown 0.6s linear;
+              // 动画完成之后，保持在50%
               top: 50%;
-              opacity: 1;
             }
-            // 100% 完全填充父容器
+
+            &.slideUp {
+              animation: slideUp 0.6s linear;
+            }
             video {
               // 去除video默认样式
               object-fit: cover;
+              // 100% 完全填充父容器
               width: 100%;
               height: 100%;
             }
