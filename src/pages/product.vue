@@ -49,6 +49,27 @@
         <div class="swiper-pagination" slot="pagination"></div>
         <p class="small-title">小米8 AI变焦双摄拍摄</p>
       </div>
+      <!-- 点击播放视频区域 -->
+      <div class="item-video">
+        <h2>
+          60帧超慢动作摄影
+          <br />慢慢回味每一瞬间的精彩
+        </h2>
+        <p>
+          后置960帧电影般超慢动作视频，将眨眼间的美妙展现得淋漓尽致！
+          <br />更能AI 精准分析视频内容，15个场景智能匹配背景音效。
+        </p>
+        <div class="video-bg">
+          <img src="/imgs/product/gallery-1.png" @click="showSlide=true" alt />
+          <div class="video-box">
+            <div class="overlay" v-if="showSlide"></div>
+            <div class="video" v-bind:class="{'slide':showSlide}">
+              <span class="icon-close" @click="showSlide=false"></span>
+              <video src="/imgs/product/video.mp4" muted controls autoplay></video>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -67,6 +88,7 @@ export default {
   },
   data() {
     return {
+      showSlide: false,
       swiperOption: {
         autoplay: true, //可选选项，自动滑动
         slidesPerView: 3, //一页图片张数
@@ -176,6 +198,76 @@ export default {
         text-align: center;
         margin-top: 57px;
         color: #333333;
+      }
+    }
+
+    .item-video {
+      text-align: center;
+      height: 1044px;
+      background-color: #070708;
+      h2 {
+        padding-top: 82px;
+        font-size: 60px;
+        color: $colorG;
+      }
+      p {
+        font-size: 24px;
+        color: $colorG;
+        margin-top: 47px;
+      }
+      .video-bg {
+        img {
+          width: 1226px;
+          height: 540px;
+          margin-top: 58px;
+          cursor: pointer;
+        }
+        .video-box {
+          .overlay {
+            @include position(fixed);
+            background-color: $colorI;
+            opacity: 0.5;
+            z-index: 10;
+          }
+          .video {
+            z-index: 10;
+            @include position(fixed);
+            // 初始时设置位置为-50%
+            top: -50%;
+            // 使视频居中
+            left: 50%;
+            z-index: 10;
+            transform: translate(-50%, -50%);
+            width: 1000px;
+            height: 536px;
+            // 初始透明度为0
+            opacity: 0;
+            // 设置动画，实现弹出视频和关闭视频效果
+            transition: all 0.6s;
+            // 现在就只需要控制slide的值
+            &.slide {
+              // 触发效果时，位置由-50%变为50%
+              top: 50%;
+              opacity: 1;
+            }
+            // 100% 完全填充父容器
+            video {
+              // 去除video默认样式
+              object-fit: cover;
+              width: 100%;
+              height: 100%;
+            }
+            // 视频弹窗添加退出按钮
+            .icon-close {
+              z-index: 100;
+              @include bgImg(20px, 20px, "/imgs/icon-close.png");
+              position: absolute;
+              top: 20px;
+              right: 20px;
+              cursor: pointer;
+            }
+          }
+        }
       }
     }
   }
