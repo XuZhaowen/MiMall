@@ -3,10 +3,11 @@
     <div class="container">
       <div class="product-title">
         <span class="main-name">{{title}}</span>
-        <span class="sx">|</span>
+        <!-- 优化 -->
+        <!-- <span class="sx">|</span>
         <span class="little-name">{{title}}</span>
         <span class="sx">|</span>
-        <span class="little-name">{{title}}</span>
+        <span class="little-name">{{title}}</span>-->
       </div>
       <div class="product-param">
         <a href="javascript:;">概述</a>
@@ -41,11 +42,11 @@ export default {
   methods: {
     // 获取页面高度
     initHeight() {
-      let height =
+      let scrollTop =
+        window.pageYOffset ||
         document.documentElement.scrollTop ||
-        document.body.scrollTop ||
-        window.pageYOffset;
-      this.isFixed = height > 152 ? true : false;
+        document.body.scrollTop;
+      this.isFixed = scrollTop > 152 ? true : false;
     }
   },
   // 为了避免浪费资源，再退出当前页面之后不触发这个方法
@@ -59,19 +60,22 @@ export default {
 @import "./../assets/scss/config.scss";
 @import "./../assets/scss/mixin.scss";
 .nav-bar {
+  // 处理detail页面
+  z-index: 10;
   height: 70px;
   // 使文字居中
   line-height: 70px;
   border-top: 1px solid $colorH;
   background-color: $colorG;
-  // 当吸顶的时候下边增加模糊值
-  box-shadow: 0 5px 5px gray;
+
   // 给initHeight设置样式
   &.is_fixed {
     // 绝对定位
     position: fixed;
     top: 0;
     width: 100%;
+    // 当吸顶的时候下边增加模糊值
+    box-shadow: 0 5px 5px gray;
   }
   .container {
     // display: flex;

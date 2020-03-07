@@ -10,3 +10,24 @@ a {
         height: 100%;
     }
 }
+
+// 浮动公共样式
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+// 使用伪类的方法清除浮动
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+}
+
+// after的单独样式
+.clearfix:after {
+    clear: both;
+}
