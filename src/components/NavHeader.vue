@@ -187,7 +187,7 @@ export default {
         });
     },
     // 路由跳转
-    goTocart() {
+    goToCart() {
       // 跳转到购物车
       this.$router.push("/cart");
     }

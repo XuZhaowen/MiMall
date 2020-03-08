@@ -10,7 +10,7 @@
       <div class="modal-dialog">
         <div class="modal-header">
           <span>{{title}}</span>
-          <a href="JavaScript:;" class="icon-close" v-on:click="$emit('cancel')"></a>
+          <a href="javascript:;" class="icon-close" v-on:click="$emit('cancel')"></a>
         </div>
         <div class="modal-body">
           <!-- 插槽 -->
@@ -22,7 +22,7 @@
             href="javascript:;"
             class="btn"
             v-if="btnType==1"
-            v-on:click="$emit('sure')"
+            v-on:click="$emit('submit')"
           >{{sureText}}</a>
           <a
             href="javascript:;"
@@ -31,8 +31,8 @@
             v-on:click="$emit('cancel')"
           >{{cancelText}}</a>
           <div class="btn-group" v-if="btnType==3">
-            <a href="javascript:;" class="btn" v-on：click="$emit('submit')">{{sureText}}</a>
-            <a href="javascript:;" class="btn" v-on：click="$emit('cancel')">{{cancelText}}</a>
+            <a href="javascript:;" class="btn" v-on:click="$emit('submit')">{{sureText}}</a>
+            <a href="javascript:;" class="btn" v-on:click="$emit('cancel')">{{cancelText}}</a>
           </div>
         </div>
       </div>

@@ -77,7 +77,7 @@
             </div>
 
             <div class="btn-huge">
-              <a href="javascript:;" class="btn">加入购物车</a>
+              <a href="javascript:;" class="btn" @click="addCart">加入购物车</a>
             </div>
           </div>
         </div>
@@ -140,6 +140,19 @@ export default {
       this.axios.get(`/products/${this.id}`).then(res => {
         this.product = res;
       });
+    },
+    addCart() {
+      this.axios
+        .post("/carts", {
+          productId: this.id,
+          selected: true
+        })
+        // res默认值，保证代码没问题
+        .then((res = { cartProductVoList: 0 }) => {
+          //dispatch方式派发，保证购物车数量实时计算,App.vue页面配置的方法
+          this.$store.dispatch("saveCartCount", res.cartTotalQuantityF);
+          this.$router.push("/cart");
+        });
     }
   }
 };

@@ -46,7 +46,7 @@
           <swiper-slide v-for="(item,index)  in slideList" :key="index">
             <!-- 用了指令，字符串要加单引号 -->
             <a :href="'/#/product/'+item.id">
-              <img v-lazy="item.img" />
+              <img v-bind:src="item.img" />
             </a>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
@@ -243,18 +243,20 @@ export default {
         });
     },
 
-    addCart() {
-      this.showModal = true;
-      return;
-      //   this.axios
-      //     .post("/carts", {
-      //       productId: id,
-      //       selected: true
-      //     })
-      //     .then(() => {})
-      //     .catch(() => {
-      //       this.showModal = true;
-      //     });
+    addCart(id) {
+      this.axios
+        .post("/carts", {
+          productId: id,
+          selected: true
+        })
+        .then(res => {
+          this.showModal = true;
+          //dispatch方式派发，保证购物车数量实时计算,App.vue页面配置的方法
+          this.$store.dispatch("saveCartCount", res.cartTotalQuantity);
+        })
+        .catch(() => {
+          this.showModal = true;
+        });
     },
 
     goToCart() {
@@ -379,6 +381,7 @@ export default {
     }
     .wrapper {
       display: flex;
+      margin-top: 10px;
       .banner-left {
         margin-right: 16px;
         img {

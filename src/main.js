@@ -33,6 +33,8 @@ axios.interceptors.response.use(function (response) {
     if (path != '#/index') {
       window.location.href = '/#/login';
     }
+    // 抛回去一个错误，代码本身就不会进then，而是进入catch
+    return Promise.reject(res);
   } else {
     // 报错
     alert(res.msg);
