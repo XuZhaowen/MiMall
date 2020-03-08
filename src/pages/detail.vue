@@ -1,6 +1,7 @@
 <template>
   <div class="product-detail">
-    <ProductParams></ProductParams>
+    <!-- 绑定产品的name -->
+    <ProductParams v-bind:title="product.name"></ProductParams>
     <div class="container">
       <div class="product-main">
         <!-- 轮播图 -->
@@ -27,11 +28,11 @@
         </div>
         <div class="product-news">
           <div class="content">
-            <h2>小米8</h2>
+            <h2>{{product.name}}</h2>
             <p>相机全新升级 / 960帧超慢动作 / 手持超级夜景 / 全球首款双频GPS / 骁龙845处理器 / 红 外人脸解锁 / A</p>
             <div class="slefEmployed">小米自营</div>
             <div class="price">
-              2599元
+              {{product.price}}元
               <span>2999元</span>
             </div>
             <div class="line"></div>
@@ -47,28 +48,36 @@
 
             <div class="choose-version clearfix">
               <h3>选择版本</h3>
-              <div class="le fl">6GB+64GB 全网通 1099元</div>
-              <div class="ri fr">4GB+64GB 移动4G 1049元</div>
+              <div
+                class="phone fl"
+                :class="{'checked':version==1}"
+                @click="version=1"
+              >6GB+64GB 全网通 1099元</div>
+              <div
+                class="phone fr"
+                :class="{'checked':version==2}"
+                @click="version=2"
+              >4GB+64GB 移动4G 1049元</div>
             </div>
 
             <div class="choose-color">
               <h3>选择颜色</h3>
-              <div class="color">深空灰</div>
+              <div class="color">{{version==1 ? '6GB+64GB 全网通':'4GB+64GB 移动4G'}} 深空灰</div>
             </div>
 
             <div class="item-news clearfix">
-              <div class="item-version fl clearfix">小米8 6GB+64GB 全网通 深灰色</div>
+              <div class="item-version fl clearfix">{{product.name}}</div>
               <div class="item-price fr clearfix">
                 <div class="price">
-                  1099元
+                  {{product.price}}元
                   <span>1699元</span>
                 </div>
               </div>
-              <div class="all-price">总计：1099元</div>
+              <div class="all-price">总计：{{product.price}}元</div>
             </div>
 
             <div class="btn-huge">
-              <a href="javascript:;" class="btn" @click="login">登录</a>
+              <a href="javascript:;" class="btn">加入购物车</a>
             </div>
           </div>
         </div>
@@ -101,6 +110,12 @@ export default {
 
   data() {
     return {
+      // 商品版本切换
+      version: 1,
+      // 当前产品id
+      id: this.$route.params.id,
+      // 商品信息
+      product: {},
       swiperOption: {
         autoplay: true, //可选选项，自动滑动
         slidesPerView: 1, //一页图片张数
@@ -116,6 +131,16 @@ export default {
         }
       }
     };
+  },
+  mounted() {
+    this.getProductInfo();
+  },
+  methods: {
+    getProductInfo() {
+      this.axios.get(`/products/${this.id}`).then(res => {
+        this.product = res;
+      });
+    }
   }
 };
 </script>
@@ -235,7 +260,7 @@ export default {
               line-height: 18px;
               color: $colorB;
             }
-            .le {
+            .phone {
               margin-top: 20px;
               border: 1px solid #ff6600;
               width: 287px;
@@ -243,15 +268,10 @@ export default {
               text-align: center;
               font-size: 16px;
               line-height: 50px;
-            }
-            .ri {
-              margin-top: 20px;
-              border: 1px solid #ff6600;
-              width: 287px;
-              height: 50px;
-              text-align: center;
-              font-size: 16px;
-              line-height: 50px;
+              &.checked {
+                border: 3px solid #ff6600;
+                color: #ff6600;
+              }
             }
           }
           .choose-color {
