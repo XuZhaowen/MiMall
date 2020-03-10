@@ -9,12 +9,12 @@
           <a href="javascript:;">协议规则</a>
         </div>
         <div class="topbar-user">
-          <a href="javascript:;" v-if="username">{{username}}</a>
+          <a href="javascript:;" v-if="username">{{ username }}</a>
           <a href="javascript:;" v-if="!username" @click="login()">登录</a>
           <a href="javascript:;" v-if="username">我的订单</a>
           <a href="javascript:;" class="my-cart" @click="goToCart()">
             <span class="icon-cart"></span>
-            购物车({{cartCount}})
+            购物车({{ cartCount }})
           </a>
         </div>
       </div>
@@ -31,13 +31,17 @@
             <!-- children里面放子标签 -->
             <div class="children">
               <ul>
-                <li class="product" v-for="(item,index) in phoneList" :key="index">
-                  <a :href="'/#/product/'+item.id" target="_blank">
+                <li
+                  class="product"
+                  v-for="(item, index) in phoneList"
+                  :key="index"
+                >
+                  <a :href="'/#/product/' + item.id" target="_blank">
                     <div class="pro-img">
                       <img v-lazy="item.mainImage" :alt="item.subtitle" />
                     </div>
-                    <div class="pro-name">{{item.name}}</div>
-                    <div class="pro-price">{{item.price | currency}}</div>
+                    <div class="pro-name">{{ item.name }}</div>
+                    <div class="pro-price">{{ item.price | currency }}</div>
                   </a>
                 </li>
               </ul>
@@ -57,7 +61,9 @@
                   <a href target="_blank">
                     <div class="pro-img">
                       <img
-                        v-lazy="'//cdn.cnbj1.fds.api.mi-img.com/mi-mall/6917267948c54c647d2009a98637aac6.jpg?thumb=1&w=185&h=127'"
+                        v-lazy="
+                          '//cdn.cnbj1.fds.api.mi-img.com/mi-mall/6917267948c54c647d2009a98637aac6.jpg?thumb=1&w=185&h=127'
+                        "
                       />
                     </div>
                     <div class="pro-name">Redmi 红米电视 70英寸 R70A</div>
@@ -68,7 +74,9 @@
                   <a href target="_blank">
                     <div class="pro-img">
                       <img
-                        v-lazy="'//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/00f597a8725eee9245e383c35cd4f7b6.jpg?thumb=1&w=185&h=127'"
+                        v-lazy="
+                          '//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/00f597a8725eee9245e383c35cd4f7b6.jpg?thumb=1&w=185&h=127'
+                        "
                       />
                     </div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
@@ -79,7 +87,9 @@
                   <a href target="_blank">
                     <div class="pro-img">
                       <img
-                        v-lazy="'//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/a40904b6a053b73b631a152334388d0e.jpg?thumb=1&w=185&h=127'"
+                        v-lazy="
+                          '//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/a40904b6a053b73b631a152334388d0e.jpg?thumb=1&w=185&h=127'
+                        "
                       />
                     </div>
                     <div class="pro-name">小米全面屏电视E55A</div>
@@ -90,7 +100,9 @@
                   <a href target="_blank">
                     <div class="pro-img">
                       <img
-                        v-lazy="'//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/e8f4e22f6d591825f8f150b3309c750b.png?thumb=1&w=185&h=127'"
+                        v-lazy="
+                          '//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/e8f4e22f6d591825f8f150b3309c750b.png?thumb=1&w=185&h=127'
+                        "
                       />
                     </div>
                     <div class="pro-name">小米电视4A 32英寸</div>
@@ -101,7 +113,9 @@
                   <a href target="_blank">
                     <div class="pro-img">
                       <img
-                        v-lazy="'//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/bf72a3e9a6e799cb71ecfa7d80465351.jpg?thumb=1&w=185&h=127'"
+                        v-lazy="
+                          '//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/bf72a3e9a6e799cb71ecfa7d80465351.jpg?thumb=1&w=185&h=127'
+                        "
                       />
                     </div>
                     <div class="pro-name">小米电视4A 55英寸</div>
@@ -112,7 +126,9 @@
                   <a href target="_blank">
                     <div class="pro-img">
                       <img
-                        v-lazy="'//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/bd922870295a97a0972eaba5af92129e.jpg?thumb=1&w=185&h=127'"
+                        v-lazy="
+                          '//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/bd922870295a97a0972eaba5af92129e.jpg?thumb=1&w=185&h=127'
+                        "
                       />
                     </div>
                     <div class="pro-name">小米电视4A 65英寸</div>
@@ -231,36 +247,6 @@ export default {
       position: relative;
       height: 112px;
       @include flex();
-      .header-log {
-        display: inline-block;
-        width: 55px;
-        height: 55px;
-        // 添加主色，解决图片不显示的问题
-        background-color: #ff6600;
-        // 伪类选择器方式添加图片
-        a {
-          display: inline-block;
-          width: 110px;
-          height: 110px;
-          &:before {
-            content: "";
-            @include bgImg(55px, 55px, "/imgs/mi-logo.png", 55px);
-            // 添加图片过度属性
-            transition: margin 0.3s;
-          }
-          &:after {
-            // content占位
-            content: "";
-            @include bgImg(55px, 55px, "/imgs/mi-home.png", 55px);
-          }
-          // 添加hover控制图片显示哪一张
-          &:hover:before {
-            margin-left: -55px;
-            // 添加图片过度属性
-            transition: margin 0.3s;
-          }
-        }
-      }
 
       .header-menu {
         display: inline-block;
