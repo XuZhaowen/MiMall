@@ -1,26 +1,21 @@
 <template>
   <div>
-    购物车页面
-    <br />购物车页面
-    <br />购物车页面
-    <br />购物车页面
-    <br />购物车页面
-    <br />购物车页面
-    <br />购物车页面
-    <br />
+    <order-header></order-header>
     <service-bar></service-bar>
     <nav-footer></nav-footer>
   </div>
 </template>
 
 <script>
+import OrderHeader from "./../components/OrderHeader";
 import ServiceBar from "./../components/ServiceBar";
 import NavFooter from "./../components/NavFooter";
 export default {
   name: "cart",
   components: {
     ServiceBar,
-    NavFooter
+    NavFooter,
+    OrderHeader
   }
 };
 </script>

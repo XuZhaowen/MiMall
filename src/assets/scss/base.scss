@@ -33,37 +33,33 @@ a {
   clear: both;
 }
 
-.nav-header {
-  .container {
-    .header-log {
-      display: inline-block;
-      width: 55px;
-      height: 55px;
-      // 添加主色，解决图片不显示的问题
-      background-color: #ff6600;
-      // 伪类选择器方式添加图片
-      a {
-        display: inline-block;
-        width: 110px;
-        height: 110px;
-        &:before {
-          content: "";
-          @include bgImg(55px, 55px, "/imgs/mi-logo.png", 55px);
-          // 添加图片过度属性
-          transition: margin 0.3s;
-        }
-        &:after {
-          // content占位
-          content: "";
-          @include bgImg(55px, 55px, "/imgs/mi-home.png", 55px);
-        }
-        // 添加hover控制图片显示哪一张
-        &:hover:before {
-          margin-left: -55px;
-          // 添加图片过度属性
-          transition: margin 0.3s;
-        }
-      }
+.header-logo {
+  display: inline-block;
+  width: 55px;
+  height: 55px;
+  // 添加主色，解决图片不显示的问题
+  background-color: #ff6600;
+  // 伪类选择器方式添加图片
+  a {
+    display: inline-block;
+    width: 110px;
+    height: 110px;
+    &:before {
+      content: "";
+      @include bgImg(55px, 55px, "/imgs/mi-logo.png", 55px);
+      // 添加图片过度属性
+      transition: margin 0.3s;
+    }
+    &:after {
+      // content占位
+      content: "";
+      @include bgImg(55px, 55px, "/imgs/mi-home.png", 55px);
+    }
+    // 添加hover控制图片显示哪一张
+    &:hover:before {
+      margin-left: -55px;
+      // 添加图片过度属性
+      transition: margin 0.3s;
     }
   }
 }
