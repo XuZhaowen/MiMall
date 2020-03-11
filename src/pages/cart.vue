@@ -6,12 +6,7 @@
         <div class="list">
           <ul class="list-header">
             <li class="col-1">
-              <span
-                class="check-box"
-                :class="{ checked: allChecked }"
-                @click="checkedAll"
-              >
-              </span>
+              <span class="check-box" :class="{ checked: allChecked }" @click="checkedAll"></span>
               全选
             </li>
             <li class="col-3">商品名称</li>
@@ -21,22 +16,17 @@
             <li class="col-1">操作</li>
           </ul>
           <ul class="list-product">
-            <li
-              class="cart-item"
-              v-for="(item, index) in cartList"
-              :key="index"
-            >
+            <li class="cart-item" v-for="(item, index) in cartList" :key="index">
               <div class="item-check">
-                <span
-                  class="check-box"
-                  :class="{ checked: item.productSelected }"
-                ></span>
+                <span class="check-box" :class="{ checked: item.productSelected }"></span>
               </div>
               <div class="item-name">
-                <img v-lazy="item.productMainImage" alt="" />
-                <span>{{
+                <img v-lazy="item.productMainImage" alt />
+                <span>
+                  {{
                   item.productName + "，" + item.productSubtitle
-                }}</span>
+                  }}
+                </span>
               </div>
               <div class="item-price">{{ item.productPrice }}元</div>
               <div class="item-amount">
@@ -54,13 +44,13 @@
         <div class="cartList-footer clearfix">
           <div class="cart-pro fl">
             <a href="javascript:;">继续购物</a>
-            共<span>{{ totalAmount }}</span
-            >件,已选择<span>{{ checkedAmount }}</span
-            >件
+            共
+            <span>{{ totalAmount }}</span>件,已选择
+            <span>{{ checkedAmount }}</span>件
           </div>
           <div class="cart-price fr">
-            合计: <span>{{ totalPrice }}</span
-            >元
+            合计:
+            <span>{{ totalPrice }}</span>元
             <div class="btn-large btn">去结算</div>
           </div>
         </div>
@@ -100,12 +90,6 @@ export default {
         this.totalResult(res);
       });
     },
-    checkedAll() {
-      let url = this.allChecked ? "carts/selectAll" : "carts/unSelectAll";
-      this.axios.put(url).then(res => {
-        this.totalResult(res);
-      });
-    },
     totalResult(res) {
       this.cartList = res.cartProductVoList || [];
       this.totalPrice = res.cartTotalPrice;
@@ -114,6 +98,19 @@ export default {
       this.checkedAmount = this.cartList.filter(
         item => item.productSelected
       ).length;
+    },
+    checkedAll() {
+      let url = this.allChecked ? "/carts/unSelectAll" : "/carts/selectAll";
+      this.axios.put(url).then(res => {
+        // this.cartList = res.cartProductVoList || [];
+        // this.totalPrice = res.cartTotalPrice;
+        // this.allChecked = res.selectedAll;
+        // this.totalAmount = res.cartTotalQuantity;
+        // this.checkedAmount = this.cartList.filter(
+        //   item => item.productSelected
+        // ).length;
+        this.totalResult(res);
+      });
     }
   }
 };
