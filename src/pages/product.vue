@@ -8,8 +8,8 @@
     <div class="content">
       <!-- 产品配置信息 -->
       <div class="bgImg-one">
-        <h3>{{product.name}}</h3>
-        <h4>{{product.subtitle}}</h4>
+        <h3>{{ product.name }}</h3>
+        <h4>{{ product.subtitle }}</h4>
         <p>
           <a href="jac=vascript:;">全球首款双频 GPS</a>
           <span>|</span>
@@ -20,7 +20,7 @@
           <a href="jac=vascript:;">红外人脸识别</a>
         </p>
         <div class="price">
-          <h5>￥{{product.price}}</h5>
+          <h5>￥{{ product.price }}</h5>
           <h6>￥2999</h6>
         </div>
       </div>
@@ -60,12 +60,21 @@
           <br />更能AI 精准分析视频内容，15个场景智能匹配背景音效。
         </p>
         <div class="video-bg">
-          <img src="/imgs/product/gallery-1.png" @click="showSlide='slideDown'" alt />
+          <img
+            src="/imgs/product/gallery-1.png"
+            @click="showSlide = 'slideDown'"
+            alt
+          />
           <div class="video-box" v-show="showSlide">
             <div class="overlay"></div>
             <div class="video" v-bind:class="showSlide">
               <span class="icon-close" @click="closeVideo"></span>
-              <video src="/imgs/product/video.mp4" muted controls autoplay></video>
+              <video
+                src="/imgs/product/video.mp4"
+                muted
+                controls
+                autoplay
+              ></video>
             </div>
           </div>
         </div>

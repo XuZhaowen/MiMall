@@ -7,14 +7,21 @@
       <div class="order-dis">
         <p>温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算</p>
       </div>
-      <div class="order-user">Kobe</div>
+      <div class="order-user">{{ username }}</div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
-  name: "order-header"
+  name: "order-header",
+
+  computed: {
+    computed: {
+      ...mapState(["username"])
+    }
+  }
 };
 </script>
 
