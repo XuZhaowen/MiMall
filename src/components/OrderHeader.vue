@@ -18,9 +18,7 @@ export default {
   name: "order-header",
 
   computed: {
-    computed: {
-      ...mapState(["username"])
-    }
+    ...mapState(["username"])
   }
 };
 </script>

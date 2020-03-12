@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 const state = {
     username: '',//登录用户名
-    cartCount: -1//购物车商品数量
+    cartCount: 0//购物车商品数量
 }
 export default new Vuex.Store({
     state,
