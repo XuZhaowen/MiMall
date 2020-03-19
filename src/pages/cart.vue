@@ -63,7 +63,7 @@
             合计:
             <span>{{ totalPrice }}</span
             >元
-            <div class="btn-large btn">去结算</div>
+            <div class="btn-large btn" @click="order">去结算</div>
           </div>
         </div>
       </div>
@@ -134,6 +134,15 @@ export default {
       this.axios.delete(`/carts/${item.productId}`).then(res => {
         this.totalResult(res);
       });
+    },
+    // 结算
+    order() {
+      let isCheck = this.cartList.every(item => !item.productSelected);
+      if (isCheck) {
+        alert("请选择一件商品！");
+      } else {
+        this.$router.push("/order/confirm");
+      }
     },
 
     // 特殊处理获取字段，公共赋值
