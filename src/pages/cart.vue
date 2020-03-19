@@ -6,7 +6,11 @@
         <div class="list">
           <ul class="list-header">
             <li class="col-1">
-              <span class="check-box" :class="{ checked: allChecked }" @click="checkedAll"></span>
+              <span
+                class="check-box"
+                :class="{ checked: allChecked }"
+                @click="checkedAll"
+              ></span>
               全选
             </li>
             <li class="col-3">商品名称</li>
@@ -16,28 +20,34 @@
             <li class="col-1">操作</li>
           </ul>
           <ul class="list-product">
-            <li class="cart-item" v-for="(item, index) in cartList" :key="index">
+            <li
+              class="cart-item"
+              v-for="(item, index) in cartList"
+              :key="index"
+            >
               <div class="item-check">
-                <span class="check-box" :class="{ checked: item.productSelected }"></span>
+                <span
+                  class="check-box"
+                  :class="{ checked: item.productSelected }"
+                  @click="updateCart(item)"
+                ></span>
               </div>
               <div class="item-name">
                 <img v-lazy="item.productMainImage" alt />
                 <span>
-                  {{
-                  item.productName + "，" + item.productSubtitle
-                  }}
+                  {{ item.productName + "，" + item.productSubtitle }}
                 </span>
               </div>
               <div class="item-price">{{ item.productPrice }}元</div>
               <div class="item-amount">
                 <div class="amount-box">
-                  <a href="javascript:;">-</a>
+                  <a href="javascript:;" @click="updateCart(item, '-')">-</a>
                   <span>{{ item.quantity }}</span>
-                  <a href="javascript:;">+</a>
+                  <a href="javascript:;" @click="updateCart(item, '+')">+</a>
                 </div>
               </div>
               <div class="all-price">{{ item.productTotalPrice }}元</div>
-              <div class="item-del"></div>
+              <div class="item-del" @click="deletePro(item)"></div>
             </li>
           </ul>
         </div>
@@ -45,12 +55,14 @@
           <div class="cart-pro fl">
             <a href="javascript:;">继续购物</a>
             共
-            <span>{{ totalAmount }}</span>件,已选择
-            <span>{{ checkedAmount }}</span>件
+            <span>{{ totalAmount }}</span
+            >件,已选择 <span>{{ checkedAmount }}</span
+            >件
           </div>
           <div class="cart-price fr">
             合计:
-            <span>{{ totalPrice }}</span>元
+            <span>{{ totalPrice }}</span
+            >元
             <div class="btn-large btn">去结算</div>
           </div>
         </div>
@@ -90,11 +102,46 @@ export default {
         this.totalResult(res);
       });
     },
+    //购物车商品数量增减，单独选择一件商品
+    updateCart(item, type) {
+      let quantity = item.quantity,
+        selected = item.productSelected;
+      if (type == "+") {
+        ++quantity;
+        if (quantity >= item.productStock) {
+          alert("此商品库存不足！");
+        }
+      } else if (type == "-") {
+        if (quantity == 1) {
+          alert("商品至少保留一件！");
+          return;
+        }
+        --quantity;
+      } else {
+        selected = !selected;
+      }
+      this.axios
+        .put(`/carts/${item.productId}`, {
+          quantity,
+          selected
+        })
+        .then(res => {
+          this.totalResult(res);
+        });
+    },
+    // 删除商品
+    deletePro(item) {
+      this.axios.delete(`/carts/${item.productId}`).then(res => {
+        this.totalResult(res);
+      });
+    },
+
+    // 特殊处理获取字段，公共赋值
     totalResult(res) {
       this.cartList = res.cartProductVoList || [];
       this.totalPrice = res.cartTotalPrice;
       this.allChecked = res.selectedAll;
-      this.totalAmount = res.cartTotalQuantity;
+      this.totalAmount = this.cartList.length;
       this.checkedAmount = this.cartList.filter(
         item => item.productSelected
       ).length;
