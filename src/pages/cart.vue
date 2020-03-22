@@ -6,11 +6,7 @@
         <div class="list">
           <ul class="list-header">
             <li class="col-1">
-              <span
-                class="check-box"
-                :class="{ checked: allChecked }"
-                @click="checkedAll"
-              ></span>
+              <span class="check-box" :class="{ checked: allChecked }" @click="checkedAll"></span>
               全选
             </li>
             <li class="col-3">商品名称</li>
@@ -20,11 +16,7 @@
             <li class="col-1">操作</li>
           </ul>
           <ul class="list-product">
-            <li
-              class="cart-item"
-              v-for="(item, index) in cartList"
-              :key="index"
-            >
+            <li class="cart-item" v-for="(item, index) in cartList" :key="index">
               <div class="item-check">
                 <span
                   class="check-box"
@@ -34,9 +26,7 @@
               </div>
               <div class="item-name">
                 <img v-lazy="item.productMainImage" alt />
-                <span>
-                  {{ item.productName + "，" + item.productSubtitle }}
-                </span>
+                <span>{{ item.productName + "，" + item.productSubtitle }}</span>
               </div>
               <div class="item-price">{{ item.productPrice }}元</div>
               <div class="item-amount">
@@ -55,14 +45,12 @@
           <div class="cart-pro fl">
             <a href="javascript:;">继续购物</a>
             共
-            <span>{{ totalAmount }}</span
-            >件,已选择 <span>{{ checkedAmount }}</span
-            >件
+            <span>{{ totalAmount }}</span>件,已选择
+            <span>{{ checkedAmount }}</span>件
           </div>
           <div class="cart-price fr">
             合计:
-            <span>{{ totalPrice }}</span
-            >元
+            <span>{{ totalPrice }}</span>元
             <div class="btn-large btn" @click="order">去结算</div>
           </div>
         </div>
@@ -77,6 +65,7 @@
 import OrderHeader from "./../components/OrderHeader";
 import ServiceBar from "./../components/ServiceBar";
 import NavFooter from "./../components/NavFooter";
+
 export default {
   name: "cart",
   components: {
@@ -109,11 +98,11 @@ export default {
       if (type == "+") {
         ++quantity;
         if (quantity >= item.productStock) {
-          alert("此商品库存不足！");
+          this.$message.warning("此商品库存不足！");
         }
       } else if (type == "-") {
         if (quantity == 1) {
-          alert("商品至少保留一件！");
+          this.$message.warning("商品至少保留一件！");
           return;
         }
         --quantity;
@@ -132,6 +121,7 @@ export default {
     // 删除商品
     deletePro(item) {
       this.axios.delete(`/carts/${item.productId}`).then(res => {
+        this.$message.success("删除成功！");
         this.totalResult(res);
       });
     },
@@ -139,7 +129,7 @@ export default {
     order() {
       let isCheck = this.cartList.every(item => !item.productSelected);
       if (isCheck) {
-        alert("请选择一件商品！");
+        this.$message.warning("请选择一件商品！");
       } else {
         this.$router.push("/order/confirm");
       }

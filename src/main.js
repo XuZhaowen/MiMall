@@ -3,6 +3,9 @@ import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueLazyLoad from 'vue-lazyload'
+import { Message } from 'element-ui'
+// 引入样式
+import 'element-ui/lib/theme-chalk/index.css';
 import VueCookie from 'vue-cookie'
 import store from './store'
 import App from './App.vue'
@@ -37,16 +40,19 @@ axios.interceptors.response.use(function (response) {
     return Promise.reject(res);
   } else {
     // 报错
-    alert(res.msg);
+    this.$message.error(res.msg);
     return Promise.reject(res);
   }
 })
 
 // 加载cookie
 Vue.use(VueCookie);
+
 Vue.use(VueLazyLoad, {
   loading: '/imgs/loading-svg/loading-bars.svg'
 });
+// 全局注册Message,就不需要在每个组件里面引用
+Vue.prototype.$message = Message;
 // 注册axios
 Vue.use(VueAxios, axios);
 Vue.config.productionTip = false

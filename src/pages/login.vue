@@ -93,7 +93,7 @@ export default {
           email: "kobe@163.com"
         })
         .then(() => {
-          alert("注册成功!");
+          this.$message.success("注册成功!");
         });
     }
   }
