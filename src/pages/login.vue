@@ -17,7 +17,11 @@
             <input type="text" placeholder="请输入账号" v-model="username" />
           </div>
           <div class="input">
-            <input type="password" placeholder="请输入密码" v-model="password" />
+            <input
+              type="password"
+              placeholder="请输入密码"
+              v-model="password"
+            />
           </div>
           <div class="btn-box">
             <a href="javascript:;" class="btn" @click="login">登录</a>
@@ -45,7 +49,9 @@
         <span>|</span>
         <a href>隐私政策</a>
       </div>
-      <p class="copyright">Copyright ©2019 mi.futurefe.com All Rights Reserved.</p>
+      <p class="copyright">
+        Copyright ©2019 mi.futurefe.com All Rights Reserved.
+      </p>
     </div>
   </div>
 </template>
@@ -76,12 +82,18 @@ export default {
           password
         })
         .then(res => {
+          this.$message.success("成功登陆账号！");
           //   this.res = res;
           this.$cookie.set("userId", res.id, { expires: "1M" });
           // to-do 保存用户名
           // 使用dispatch分发action
           this.$store.dispatch("saveUsername", res.username);
-          this.$router.push("/index");
+          this.$router.push({
+            name: "index",
+            params: {
+              from: "login"
+            }
+          });
         });
     },
     register() {

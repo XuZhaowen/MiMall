@@ -14,8 +14,11 @@ export default {
   },
   mounted() {
     // 初始化
-    this.getUser();
-    this.getCartCount();
+    // 加判断，当进入首页时，执行方法
+    if (this.$cookie.get("userId")) {
+      this.getUser();
+      this.getCartCount();
+    }
   },
   methods: {
     getUser() {
