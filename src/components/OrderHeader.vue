@@ -5,7 +5,7 @@
         <a href="/#/index"></a>
       </div>
       <div class="order-dis">
-        <p>温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算</p>
+        <h2>{{ title }}<slot name="tip"></slot></h2>
       </div>
       <div class="order-user">{{ username }}</div>
     </div>
@@ -16,7 +16,9 @@
 import { mapState } from "vuex";
 export default {
   name: "order-header",
-
+  props: {
+    title: String
+  },
   computed: {
     ...mapState(["username"])
   }
@@ -45,12 +47,16 @@ export default {
     font-size: 28px;
     float: left;
     color: #333333;
-    margin-left: 54px;
-    p {
+    margin-left: 44px;
+    span {
       font-size: 14px;
       margin-left: 17px;
       color: #999999;
       font-weight: bold;
+    }
+    h2 {
+      font-size: 28px;
+      color: #333333;
     }
   }
   .order-user {

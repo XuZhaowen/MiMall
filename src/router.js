@@ -7,7 +7,7 @@ import Detail from './pages/detail'
 import Login from './pages/login'
 
 import Order from './pages/order'
-import OederList from './pages/orderList'
+import OrderList from './pages/orderList'
 import OrderConfirm from './pages/orderConfirm'
 import OrderPay from './pages/orderPay'
 import AliPay from './pages/alipay'
@@ -60,21 +60,25 @@ export default new Router({
                 {
                     path: 'list',
                     name: 'order-list',
-                    component: OederList
+                    // 订单
+                    component: OrderList
                 },
                 {
                     path: 'confirm',
                     name: 'order-confirm',
+                    // 订单确认
                     component: OrderConfirm
                 },
                 {
                     path: 'pay',
                     name: 'order-pay',
+                    // 支付页面
                     component: OrderPay
                 },
                 {
                     path: 'alipay',
                     name: 'alipay',
+                    // 跳转到支付宝的中转页面
                     component: AliPay,
                 }
             ]
