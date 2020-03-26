@@ -170,6 +170,7 @@ export default {
 .cartList {
   height: 676px;
   background: $colorJ;
+  padding-top: 30px;
   .container {
     .list {
       .check-box {
