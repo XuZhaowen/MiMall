@@ -40,7 +40,8 @@ axios.interceptors.response.use(function (response) {
     return Promise.reject(res);
   } else {
     // 报错
-    this.$message.error(res.msg);
+    Message.warning(res.msg);
+    // alert(res.msg)
     return Promise.reject(res);
   }
 })
@@ -51,7 +52,7 @@ Vue.use(VueCookie);
 Vue.use(VueLazyLoad, {
   loading: '/imgs/loading-svg/loading-bars.svg'
 });
-// 全局注册Message,就不需要在每个组件里面引用
+//ElementUI 全局注册Message,就不需要在每个组件里面引用
 Vue.prototype.$message = Message;
 // 注册axios
 Vue.use(VueAxios, axios);
