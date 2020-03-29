@@ -1,10 +1,5 @@
 # MiMall
 
-
-## Generate local package-lock.json
-```
-npm i
-```
 ## Project setup
 ```
 yarn install
