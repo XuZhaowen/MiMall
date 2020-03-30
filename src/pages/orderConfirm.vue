@@ -47,10 +47,22 @@
       <div class="orderConfirm-main">
         <div class="confirm-address clearfix">
           <h2>收货地址</h2>
-          <div class="add-address1 fl">
-            <h3>Admin</h3>
-            <div class="phone">18600000000</div>
-            <div class="street">北京市 海定区 百度科技园</div>
+          <div
+            class="add-address1 fl"
+            v-for="(item, i) in addressList"
+            :key="i"
+          >
+            <h3>{{ item.receiverName }}</h3>
+            <div class="phone">{{ item.receiverMobile }}</div>
+            <div class="street">
+              {{
+                item.receiverProvince +
+                  " " +
+                  item.receiverCity +
+                  " " +
+                  item.receiverAddress
+              }}
+            </div>
             <div class="action">
               <a href="javascript:;" class="fl" @click="delAddress(item)">
                 <!-- svg删除图标 -->
@@ -77,12 +89,14 @@
         <div class="item-good">
           <h2>商品</h2>
           <ul>
-            <li v-for="(item, index) in cartList" :key="index">
+            <li v-for="(item, j) in cartList" :key="j">
               <div class="good-name">
                 <img v-lazy="item.productMainImage" alt />
                 <span>{{ item.productName + " " + item.productSubtitle }}</span>
               </div>
-              <div class="good-price">{{ item.productPrice }}元x{{ item.quantity }}</div>
+              <div class="good-price">
+                {{ item.productPrice }}元x{{ item.quantity }}
+              </div>
               <div class="good-total">{{ item.productTotalPrice }}元</div>
             </li>
           </ul>
@@ -128,18 +142,39 @@
         </div>
       </div>
     </div>
+    <!-- Modal弹窗 -->
+    <!-- 删除地址弹窗 -->
+    <modal
+      title="确认删除"
+      btnType="3"
+      v-bind:showModal="deleteAddressModal"
+      v-on:cancel="deleteAddressModal = false"
+      v-on:submit="submitAddress"
+    >
+      <!-- 插槽 template包裹 -->
+      <template v-slot:body>
+        <p>您确认要删除此地址吗？</p>
+      </template>
+    </modal>
   </div>
 </template>
 
 <script>
+import Modal from "./../components/Modal";
 export default {
   name: "orderConfim",
+  components: {
+    Modal
+  },
   data() {
     return {
       addressList: [], //收货地址列表
       cartList: [], //最后需要结算的商品
       totalPrice: 0, //最后结算总价
-      count: 0 //商品结算数量
+      count: 0, //商品结算数量
+      checkedItem: {}, //定义编辑的对象
+      userAction: "", //d定义用户的行为，0：新增，1：编辑，2：删除
+      deleteAddressModal: false //是否显示删除弹窗
     };
   },
   // mounted 生命周期的钩子
@@ -153,6 +188,46 @@ export default {
         this.addressList = res.list;
       });
     },
+
+    // 删除地址
+    delAddress(item) {
+      this.deleteAddressModal = true;
+      this.userAction = 2;
+      this.checkedItem = item;
+    },
+    // 地址删除、编辑、新增功能,根据值判断进行了什么操作
+    // 整合接口调用
+    submitAddress() {
+      // 解构赋值
+      let { checkedItem, userAction } = this;
+      // 下方的简写
+      // let checkedItem=this.checkedItem;
+      // let userAction=this.userAction;
+
+      let method,
+        url = {};
+      if (userAction == 0) {
+        (method = "post"), (url = "/shippings");
+      } else if (userAction == 1) {
+        (method = "put"), (url = `/shippings/${checkedItem.id}`);
+      } else {
+        (method = "delete"), (url = `/shippings/${checkedItem.id}`);
+      }
+      // method动态赋值
+      this.axios[method](url).then(() => {
+        this.closeModal();
+        this.getCartList();
+        this.$message.success("操作成功！");
+      });
+    },
+
+    // 关闭弹框
+    closeModal() {
+      this.checkedItem = {};
+      this.userAction = "";
+      this.deleteAddressModal = false;
+    },
+
     getCartList() {
       this.axios.get("/carts").then(res => {
         this.cartList = res.cartProductVoList; //获取购物车中所有商品数据
