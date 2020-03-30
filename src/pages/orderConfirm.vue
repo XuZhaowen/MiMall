@@ -156,6 +156,51 @@
         <p>您确认要删除此地址吗？</p>
       </template>
     </modal>
+
+    <!-- 地址表单静态弹窗 -->
+    <modal
+      title="添加收货地址"
+      btnType="3"
+      v-bind:showModal="addAddressModal"
+      v-on:cancel="addAddressModal = false"
+      v-on:submit="submitAddress"
+    >
+      <!-- 插槽 template包裹 -->
+      <template v-slot:body>
+        <div class="select-wrap">
+          <div class="item">
+            <input type="text" class="input" value="姓名" />
+            <input type="text" class="input" value="手机号" />
+          </div>
+          <div class="item">
+            <select name="province" id="">
+              <option value="江苏">江苏</option>
+              <option value="四川">四川</option>
+              <option value="上海">上海</option>
+            </select>
+            <select name="city" id="">
+              <option value="南京">南京</option>
+              <option value="成都">成都</option>
+              <option value="浦东新区">浦东新区</option>
+            </select>
+            <select name="area" id="">
+              <option value="锡山区">锡山区</option>
+              <option value="新区">新区</option>
+              <option value="普陀区">普陀区</option>
+              <option value="闵行区">闵行区</option>
+              <option value="锦江区">锦江区</option>
+            </select>
+          </div>
+          <!-- textarea输入框，可自行调节大小 -->
+          <div class="item">
+            <textarea name="street"></textarea>
+          </div>
+          <div class="item">
+            <input type="text" class="input" value="邮政编码" />
+          </div>
+        </div>
+      </template>
+    </modal>
   </div>
 </template>
 
@@ -174,7 +219,8 @@ export default {
       count: 0, //商品结算数量
       checkedItem: {}, //定义编辑的对象
       userAction: "", //d定义用户的行为，0：新增，1：编辑，2：删除
-      deleteAddressModal: false //是否显示删除弹窗
+      deleteAddressModal: false, //是否显示删除弹窗
+      addAddressModal: true //是否显示编辑弹窗
     };
   },
   // mounted 生命周期的钩子
@@ -438,6 +484,42 @@ export default {
       .confirm-pay {
         margin-top: 37px;
         text-align: right;
+      }
+    }
+  }
+  .select-wrap {
+    font-size: 14px;
+    .item {
+      margin-bottom: 15px;
+      input {
+        // 避免宽度挤大换行
+        box-sizing: border-box;
+        display: inline-block;
+        border: 1px solid $colorH;
+        width: 283px;
+        height: 40px;
+        line-height: 40px;
+        padding-left: 15px;
+        color: $colorD;
+        // 第二个input偏移
+        & + .input {
+          margin-left: 14px;
+        }
+      }
+
+      select {
+        height: 40px;
+        line-height: 40px;
+        border: 1px solid $colorH;
+        margin-right: 15px;
+      }
+
+      textarea {
+        height: 62px;
+        width: 100%;
+        padding: 13px 15px;
+        box-sizing: border-box;
+        border: 1px solid #e5e5e5;
       }
     }
   }
