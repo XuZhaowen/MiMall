@@ -80,7 +80,7 @@
           </div>
           <div class="add-address2 fl">
             <div class="icon1"></div>
-            <div class="add-new">
+            <div class="add-new" @click="addNewAddress">
               <a href="javascript:;">添加新地址</a>
             </div>
           </div>
@@ -169,21 +169,35 @@
       <template v-slot:body>
         <div class="select-wrap">
           <div class="item">
-            <input type="text" class="input" value="姓名" />
-            <input type="text" class="input" value="手机号" />
+            <input
+              type="text"
+              class="input"
+              placeholder="姓名"
+              v-model="checkedItem.receiverName"
+            />
+            <input
+              type="text"
+              class="input"
+              placeholder="手机号"
+              v-model="checkedItem.receiverMobile"
+            />
           </div>
           <div class="item">
-            <select name="province" id="">
+            <select
+              name="province"
+              id=""
+              v-model="checkedItem.receiverProvince"
+            >
               <option value="江苏">江苏</option>
               <option value="四川">四川</option>
               <option value="上海">上海</option>
             </select>
-            <select name="city" id="">
+            <select name="city" id="" v-model="checkedItem.receiverCity">
               <option value="南京">南京</option>
               <option value="成都">成都</option>
               <option value="浦东新区">浦东新区</option>
             </select>
-            <select name="area" id="">
+            <select name="area" id="" v-model="checkedItem.receiverDistrict">
               <option value="锡山区">锡山区</option>
               <option value="新区">新区</option>
               <option value="普陀区">普陀区</option>
@@ -193,10 +207,21 @@
           </div>
           <!-- textarea输入框，可自行调节大小 -->
           <div class="item">
-            <textarea name="street"></textarea>
+            <textarea
+              name="street"
+              value="详细地址"
+              v-model="checkedItem.receiverAddress"
+            >
+详细地址</textarea
+            >
           </div>
           <div class="item">
-            <input type="text" class="input" value="邮政编码" />
+            <input
+              type="text"
+              class="input"
+              placeholder="邮编"
+              v-model="checkedItem.receiverZip"
+            />
           </div>
         </div>
       </template>
@@ -220,7 +245,7 @@ export default {
       checkedItem: {}, //定义编辑的对象
       userAction: "", //d定义用户的行为，0：新增，1：编辑，2：删除
       deleteAddressModal: false, //是否显示删除弹窗
-      addAddressModal: true //是否显示编辑弹窗
+      addAddressModal: false //是否显示编辑弹窗
     };
   },
   // mounted 生命周期的钩子
@@ -233,6 +258,12 @@ export default {
       this.axios.get("/shippings").then(res => {
         this.addressList = res.list;
       });
+    },
+    // 增加新地址
+    addNewAddress() {
+      this.addAddressModal = true;
+      this.userAction = 0;
+      this.checkedItem = {};
     },
 
     // 删除地址
@@ -251,7 +282,8 @@ export default {
       // let userAction=this.userAction;
 
       let method,
-        url = {};
+        url,
+        params = {};
       if (userAction == 0) {
         (method = "post"), (url = "/shippings");
       } else if (userAction == 1) {
@@ -259,8 +291,51 @@ export default {
       } else {
         (method = "delete"), (url = `/shippings/${checkedItem.id}`);
       }
+
+      if (userAction == 0 || userAction == 1) {
+        let {
+          receiverName,
+          receiverMobile,
+          receiverProvince,
+          receiverCity,
+          receiverDistrict,
+          receiverAddress,
+          receiverZip
+        } = checkedItem;
+        // 定义错误提示
+        let errMsg = "";
+        if (!receiverName) {
+          errMsg = "请输入收货人名称";
+        } else if (!receiverMobile) {
+          errMsg = "请输入手机号码";
+        } else if (!receiverProvince) {
+          errMsg = "请选择省份";
+        } else if (!receiverCity) {
+          errMsg = "请选择对应城市";
+        } else if (!receiverDistrict) {
+          errMsg = "请输入对应的区";
+        } else if (!receiverAddress) {
+          errMsg = "请输入详细地址";
+        } else if (!receiverZip) {
+          errMsg = "请输入邮政编码";
+        }
+
+        if (errMsg) {
+          this.$message.info(errMsg);
+          return;
+        }
+        params = {
+          receiverName,
+          receiverMobile,
+          receiverProvince,
+          receiverCity,
+          receiverDistrict,
+          receiverAddress,
+          receiverZip
+        };
+      }
       // method动态赋值
-      this.axios[method](url).then(() => {
+      this.axios[method](url, params).then(() => {
         this.closeModal();
         this.getCartList();
         this.$message.success("操作成功！");
@@ -272,6 +347,9 @@ export default {
       this.checkedItem = {};
       this.userAction = "";
       this.deleteAddressModal = false;
+      this.addAddressModal = false;
+      // 关闭弹窗，实时获取接口数据，刷新页面
+      this.getAddress();
     },
 
     getCartList() {
@@ -302,10 +380,13 @@ export default {
     .orderConfirm-main {
       position: relative;
       box-sizing: border-box;
-      height: 908px;
+      height: 928px;
       background-color: $colorG;
       top: 32px;
       .confirm-address {
+        // overflow: hidden;
+        // 地址过多时，优化页面
+        overflow-y: auto;
         height: 322px;
         h2 {
           padding-top: 38px;
@@ -320,7 +401,10 @@ export default {
           border: 1px solid $colorH;
           margin-top: 21px;
           margin-left: 63px;
+          position: relative;
           h3 {
+            // 设置高度，优化页面
+            height: 33px;
             font-size: 25px;
             padding-top: 20px;
             padding-left: 20px;
@@ -334,6 +418,17 @@ export default {
             font-size: 20px;
             margin-top: 6px;
             padding-left: 20px;
+            height: 50px;
+            // 超出部分隐藏，并显示为三个点，强制放在一行
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+          // 改变详细地址框样式，避免内容过长，影响布局
+          .street:hover {
+            cursor: pointer;
+            overflow: auto;
+            white-space: normal;
           }
           .action {
             height: 50px;
@@ -441,6 +536,7 @@ export default {
       .item-good {
         border-bottom: 1px solid $colorH;
         padding-bottom: 12px;
+        margin-top: 20px;
         h2 {
           font-size: 20px;
           line-height: 20px;
@@ -520,6 +616,8 @@ export default {
         padding: 13px 15px;
         box-sizing: border-box;
         border: 1px solid #e5e5e5;
+        color: $colorD;
+        line-height: 40px;
       }
     }
   }
