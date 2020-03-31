@@ -1,12 +1,20 @@
 <template>
   <div>
-    <order-header></order-header>
+    <order-header title="我的购物车">
+      <template v-slot:tip>
+        <span>温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算</span>
+      </template>
+    </order-header>
     <div class="cartList">
       <div class="container">
         <div class="list">
           <ul class="list-header">
             <li class="col-1">
-              <span class="check-box" :class="{ checked: allChecked }" @click="checkedAll"></span>
+              <span
+                class="check-box"
+                :class="{ checked: allChecked }"
+                @click="checkedAll"
+              ></span>
               全选
             </li>
             <li class="col-3">商品名称</li>
@@ -16,7 +24,11 @@
             <li class="col-1">操作</li>
           </ul>
           <ul class="list-product">
-            <li class="cart-item" v-for="(item, index) in cartList" :key="index">
+            <li
+              class="cart-item"
+              v-for="(item, index) in cartList"
+              :key="index"
+            >
               <div class="item-check">
                 <span
                   class="check-box"
@@ -26,7 +38,9 @@
               </div>
               <div class="item-name">
                 <img v-lazy="item.productMainImage" alt />
-                <span>{{ item.productName + "，" + item.productSubtitle }}</span>
+                <span>{{
+                  item.productName + "，" + item.productSubtitle
+                }}</span>
               </div>
               <div class="item-price">{{ item.productPrice }}元</div>
               <div class="item-amount">
@@ -45,12 +59,14 @@
           <div class="cart-pro fl">
             <a href="javascript:;">继续购物</a>
             共
-            <span>{{ totalAmount }}</span>件,已选择
-            <span>{{ checkedAmount }}</span>件
+            <span>{{ totalAmount }}</span
+            >件,已选择 <span>{{ checkedAmount }}</span
+            >件
           </div>
           <div class="cart-price fr">
             合计:
-            <span>{{ totalPrice }}</span>元
+            <span>{{ totalPrice }}</span
+            >元
             <div class="btn-large btn" @click="order">去结算</div>
           </div>
         </div>
