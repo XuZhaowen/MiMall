@@ -138,7 +138,9 @@
         </div>
         <div class="confirm-pay">
           <a href="/#/cart" class="btn btn-default btn-large">返回购物车</a>
-          <a href="javascript:;" class="btn btn-large">去结算</a>
+          <a href="javascript:;" class="btn btn-large" @click="goToPay"
+            >去结算</a
+          >
         </div>
       </div>
     </div>
@@ -266,6 +268,13 @@ export default {
       this.checkedItem = {};
     },
 
+    // 编辑地址
+    editAddressModal(item) {
+      this.addAddressModal = true;
+      this.userAction = 1;
+      this.checkedItem = item;
+    },
+
     // 删除地址
     delAddress(item) {
       this.deleteAddressModal = true;
@@ -363,6 +372,10 @@ export default {
           this.count += item.quantity;
         });
       });
+    },
+
+    goToPay() {
+      this.$router.push("/order/pay");
     }
   }
 };
