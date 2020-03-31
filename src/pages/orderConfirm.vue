@@ -51,6 +51,8 @@
             class="add-address1 fl"
             v-for="(item, i) in addressList"
             :key="i"
+            :class="{ checked: i == checkIndex }"
+            @click="checkIndex = i"
           >
             <h3>{{ item.receiverName }}</h3>
             <div class="phone">{{ item.receiverMobile }}</div>
@@ -247,7 +249,8 @@ export default {
       checkedItem: {}, //定义编辑的对象
       userAction: "", //d定义用户的行为，0：新增，1：编辑，2：删除
       deleteAddressModal: false, //是否显示删除弹窗
-      addAddressModal: false //是否显示编辑弹窗
+      addAddressModal: false, //是否显示编辑弹窗
+      checkIndex: 0 //当前收货地址选中索引
     };
   },
   // mounted 生命周期的钩子
@@ -374,8 +377,28 @@ export default {
       });
     },
 
+    // 生成订单
     goToPay() {
-      this.$router.push("/order/pay");
+      let item = this.addressList[this.checkIndex];
+      // 判断是否选择地址
+      // 生成订单之后，购物车商品就清空了
+      if (!item) {
+        this.$message.warning("请选择一个收货地址！");
+      } else {
+        this.axios
+          .post("/orders", {
+            shippingId: item.id
+          })
+          .then(res => {
+            // 路由跳转
+            this.$router.push({
+              path: "/order/pay",
+              query: {
+                orderNo: res.orderNo
+              }
+            });
+          });
+      }
     }
   }
 };
@@ -415,6 +438,9 @@ export default {
           margin-top: 21px;
           margin-left: 63px;
           position: relative;
+          &.checked {
+            border: 1px solid gold;
+          }
           h3 {
             // 设置高度，优化页面
             height: 33px;
