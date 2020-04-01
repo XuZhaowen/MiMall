@@ -4,52 +4,51 @@
       <!-- 页面上半部分 -->
       <div class="orderPage-header">
         <!-- 一 -->
-        <div class="submitSuccess clearfix">
-          <div class="icon1 fl"></div>
+        <div class="submitSuccess">
+          <div class="icon1"></div>
           <div class="submitNews">
-            <p>订单提交成功！去付款咯～</p>
-            <div class="payTime">
-              请在0小时30分内完成支付, 超时后将取消订单
-            </div>
-            <div class="addressDetail">
-              收货信息：高丽 183****0972 北京 北京市 朝阳区 望京街道
+            <h2>订单提交成功！去付款咯～</h2>
+            <p>请在 <span> 0小时30分</span>内完成支付, 超时后将取消订单</p>
+            <p>
+              收货信息： 高丽 183****0972 北京 北京市 朝阳区 望京街道
               望京(地铁站)
-            </div>
+            </p>
           </div>
-          <div class="allPrice fr">
-            <span>应付总额：2198元</span>
-            <div class="showDetail">
-              <span>订单详情</span>
-              <div class="icon"></div>
-            </div>
+          <div class="allPrice">
+            <p>应付总额： <span> 2198元</span></p>
+            <p class="showDetail">订单详情 <em class="icon2"></em></p>
           </div>
         </div>
 
         <!-- 二 -->
         <div class="submitDetails">
-          <div class="orderNum">
-            订单号：5190702816411009
-          </div>
+          <div class="orderNum">订单号：<span>5190702816411009</span></div>
           <div class="addressDetail">
-            收货信息：高丽 183****0972 北京 北京市 朝阳区 望京街道 望京(地铁站)
+            收货信息：<span
+              >高丽 183****0972 北京 北京市 朝阳区 望京街道 望京(地铁站)</span
+            >
           </div>
           <div class="proDetail">
-            商品名称：小米8 青春 全网通版 6GB内存 深空灰 64GB 小米8青春版
-            标准高透贴膜 高透
+            商品名称：<span
+              >小米8 青春 全网通版 6GB内存 深空灰 64GB 小米8青春版 标准高透贴膜
+              高透</span
+            >
           </div>
           <div class="invoiceInformation">
-            发票信息：电子发票 个人
+            发票信息：<span>电子发票 个人</span>
           </div>
         </div>
       </div>
 
       <!-- 三 -->
-      <div class="paymentMethod">
-        <p>选择以下支付方式付款</p>
-        <h3>支付平台</h3>
+      <div class="payment-method">
+        <div class="h3">
+          <h3>选择以下支付方式付款</h3>
+        </div>
         <div class="payChoose">
-          <img src="" alt="" />
-          <img src="" alt="" />
+          <p>支付平台</p>
+          <div class="pay pay-ali"></div>
+          <div class="pay pay-wechat"></div>
         </div>
       </div>
     </div>
@@ -68,26 +67,141 @@ export default {
 @import "./../assets/scss/base.scss";
 @import "./../assets/scss/button.scss";
 .orderPay {
+  height: 906px;
   background-color: $colorJ;
-  padding-top: 32px;
+  padding-top: 30px;
   .container {
     .orderPage-header {
       height: 444px;
       background-color: $colorG;
       .submitSuccess {
+        // 解决padding撑大的问题
+        box-sizing: border-box;
+        // 下边框位置
+        border-bottom: 1px solid $colorF;
+        height: 206px;
+        // 弹性布局
+        display: flex;
         padding-top: 62px;
         padding-left: 53px;
-        border-bottom: 1px solid $colorF;
-
         .icon1 {
           width: 90px;
           height: 90px;
           background: url("/imgs/icon-gou.png") #80c58a no-repeat center;
           border-radius: 50%;
+          // 图标内容大小
+          background-size: 60px;
+          margin-right: 40px;
         }
-
         .submitNews {
-          margin-left: 40px;
+          padding-top: 18px;
+          margin-right: 200px;
+          h2 {
+            font-size: 24px;
+            color: $colorB;
+          }
+          p:first-of-type {
+            margin-top: 20px;
+            font-size: 14px;
+            color: $colorC;
+            span {
+              color: $colorA;
+            }
+          }
+          p:last-child {
+            margin-top: 10px;
+            font-size: 14px;
+            color: $colorC;
+          }
+        }
+        .allPrice {
+          padding-top: 19px;
+          font-size: 14px;
+          color: $colorC;
+          p:first-of-type {
+            span {
+              font-size: 28px;
+              color: #ff6700;
+            }
+          }
+          p:last-child {
+            margin-top: 25px;
+            .icon2 {
+              display: inline-block;
+              width: 14px;
+              height: 9.6px;
+              background: url("/imgs/icon-down.png") no-repeat center;
+              background-size: 14px;
+              margin-left: 9px;
+            }
+          }
+        }
+      }
+      .submitDetails {
+        margin-top: 47px;
+        font-size: 14px;
+        color: $colorB;
+        padding-left: 185px;
+        .orderNum {
+          span {
+            color: $colorA;
+            margin-left: 40px;
+          }
+        }
+        // 提取公共的span
+        span {
+          margin-top: 19px;
+          margin-left: 26px;
+        }
+        .addressDetail {
+          margin-top: 19px;
+        }
+        .proDetail {
+          margin-top: 19px;
+        }
+        .invoiceInformation {
+          margin-top: 19px;
+        }
+      }
+    }
+    .payment-method {
+      margin-top: 30px;
+      height: 270px;
+      background-color: $colorG;
+
+      .h3 {
+        height: 70px;
+        border-bottom: 1px solid $colorF;
+        h3 {
+          box-sizing: border-box;
+          padding-top: 26px;
+          padding-left: 53px;
+          box-sizing: border-box;
+          font-size: 20px;
+          color: $colorB;
+        }
+      }
+      .payChoose {
+        padding-left: 53px;
+        p {
+          margin-top: 26px;
+        }
+        .pay {
+          display: inline-block;
+          width: 188px;
+          height: 64px;
+          border: 1px solid $colorF;
+          margin-top: 19px;
+          cursor: pointer;
+        }
+        .pay-ali {
+          background: url("/imgs/pay/icon-ali.png") no-repeat center;
+          background-size: 103px 38px;
+        }
+        .pay-wechat {
+          margin-left: 20px;
+          background: url("/imgs/pay/icon-wechat.png") no-repeat center;
+          background-size: 103px 38px;
         }
       }
     }
