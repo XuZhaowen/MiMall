@@ -30,6 +30,8 @@ module.exports = {
                 return assetFilename.endsWith('.js');
             }
         }
-    }
+    },
+    // eslint校验开关
+    lintOnSave: true
 
 }

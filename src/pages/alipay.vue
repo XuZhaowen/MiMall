@@ -40,7 +40,7 @@ export default {
           setTimeout(() => {
             // 延迟一秒提交表单
             document.forms[0].submit();
-          }, 1000);
+          }, 100);
         });
     }
   }

@@ -25,7 +25,7 @@
       <!-- 二 -->
       <div class="submitDetails" v-if="showDetail1">
         <div class="orderNum">
-          订单号：<span>{{ orderNo }}</span>
+          订单号：<span>{{ orderId }}</span>
         </div>
         <div class="addressDetail">
           收货信息：<span>{{ addressInfo }}</span>
@@ -53,34 +53,50 @@
         <div class="h3">
           <h3>选择以下支付方式付款</h3>
         </div>
-        <div class="payChoose">
+        <div class="payType">
           <p>支付平台</p>
           <div
             class="pay pay-ali"
-            :class="{ checked: payChoose == 1 }"
+            :class="{ checked: payType == 1 }"
             @click="paySubmit(1)"
           ></div>
           <div
             class="pay pay-wechat"
-            :class="{ checked: payChoose == 2 }"
+            :class="{ checked: payType == 2 }"
             @click="paySubmit(2)"
           ></div>
         </div>
       </div>
     </div>
+    <!-- 二维码支付页面 -->
+    <!-- :img 动态绑定 -->
+    <scan-pay-code
+      v-if="showPay"
+      @close="closePayModal"
+      :img="payImg"
+    ></scan-pay-code>
   </div>
 </template>
 
 <script>
+// 引入qrcode
+import QRCode from "qrcode";
+// 引入支付页面
+import ScanPayCode from "./../components/ScanPayCode";
 export default {
   name: "orderPay",
+  components: {
+    ScanPayCode
+  },
   data() {
     return {
-      payChoose: "", //支付方式默认选择支付宝
-      orderNo: this.$route.query.orderNo, //根据路由获取当前的orderName
+      payType: "", //支付方式默认选择支付宝
+      orderId: this.$route.query.orderNo, //根据路由获取当前的orderName
       addressInfo: "", //收货人信息
       proDetail: [], //订单商品详情，包含商品列表
-      showDetail1: false //默认不展示订单详情
+      showDetail1: false, //默认不展示订单详情
+      showPay: false, //是否显示微信支付弹框
+      payImg: "" //微信支付的二维码地址
     };
   },
   mounted() {
@@ -89,7 +105,7 @@ export default {
   methods: {
     // 获取订单详情
     getOrderDetails() {
-      this.axios.get(`/orders/${this.orderNo}`).then(res => {
+      this.axios.get(`/orders/${this.orderId}`).then(res => {
         // 收货人信息
         let item = res.shippingVo;
         // 收获信息
@@ -101,10 +117,35 @@ export default {
 
     // 定义方法，判断支付方式，跳到对应的支付页面
     // _blank，表示打开新窗口
-    paySubmit(payChoose) {
-      if (payChoose == 1) {
-        window.open("/#/order/alipay?orderId=" + this.orderNo, "_blank");
+    paySubmit(payType) {
+      if (payType == 1) {
+        window.open("/#/order/alipay?orderId=" + this.orderId, "_blank");
+      } else {
+        this.axios
+          .post("/pay", {
+            orderId: this.orderId,
+            orderName: "Vue仿小米商城", //扫码支付时订单名称
+            amount: 0.01, //单位元
+            payType: 2 //1支付宝，2微信
+          })
+          .then(res => {
+            //转换编码,链接转换为二维码
+            QRCode.toDataURL(res.content)
+              .then(url => {
+                // 点击支付跳出弹框
+                this.showPay = true;
+                // url转为二维码图片
+                this.payImg = url;
+              })
+              .catch(() => {
+                this.$message.error("微信二维码生成失败，请稍后重试");
+              });
+          });
       }
+    },
+    // 关闭二维码弹框
+    closePayModal() {
+      this.showPay = false;
     }
   }
 };
@@ -263,7 +304,7 @@ export default {
           color: $colorB;
         }
       }
-      .payChoose {
+      .payType {
         padding-left: 53px;
         p {
           margin-top: 26px;
