@@ -9,8 +9,12 @@
       <!-- 弹窗 -->
       <div class="modal-dialog">
         <div class="modal-header">
-          <span>{{title}}</span>
-          <a href="javascript:;" class="icon-close" v-on:click="$emit('cancel')"></a>
+          <span>{{ title }}</span>
+          <a
+            href="javascript:;"
+            class="icon-close"
+            v-on:click="$emit('cancel')"
+          ></a>
         </div>
         <div class="modal-body">
           <!-- 插槽 -->
@@ -21,18 +25,27 @@
           <a
             href="javascript:;"
             class="btn"
-            v-if="btnType==1"
+            v-if="btnType == 1"
             v-on:click="$emit('submit')"
-          >{{sureText}}</a>
+            >{{ sureText }}</a
+          >
           <a
             href="javascript:;"
             class="btn"
-            v-if="btnType==2"
+            v-if="btnType == 2"
             v-on:click="$emit('cancel')"
-          >{{cancelText}}</a>
-          <div class="btn-group" v-if="btnType==3">
-            <a href="javascript:;" class="btn" v-on:click="$emit('submit')">{{sureText}}</a>
-            <a href="javascript:;" class="btn" v-on:click="$emit('cancel')">{{cancelText}}</a>
+            >{{ cancelText }}</a
+          >
+          <div class="btn-group" v-if="btnType == 3">
+            <a href="javascript:;" class="btn" v-on:click="$emit('submit')">{{
+              sureText
+            }}</a>
+            <a
+              href="javascript:;"
+              class="btn btn-default"
+              v-on:click="$emit('cancel')"
+              >{{ cancelText }}</a
+            >
           </div>
         </div>
       </div>

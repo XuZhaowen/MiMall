@@ -10,7 +10,9 @@
           <p>收货信息：{{ addressInfo }}</p>
         </div>
         <div class="allPrice">
-          <p>应付总额： <span> 2198元</span></p>
+          <p>
+            应付总额： <span> {{ payment }}元</span>
+          </p>
           <p class="showDetail">
             订单详情
             <em
@@ -75,6 +77,22 @@
       @close="closePayModal"
       :img="payImg"
     ></scan-pay-code>
+
+    <!-- modal弹窗 -->
+    <modal
+      title="支付确认"
+      btnType="3"
+      v-bind:showModal="showPayModal"
+      sureText="查看订单"
+      cancelText="未支付"
+      v-on:cancel="showPayModal = false"
+      v-on:submit="goOrderList"
+    >
+      <!-- 插槽 template包裹 -->
+      <template v-slot:body>
+        <p>您确认是否完成支付？</p>
+      </template>
+    </modal>
   </div>
 </template>
 
@@ -83,9 +101,12 @@
 import QRCode from "qrcode";
 // 引入支付页面
 import ScanPayCode from "./../components/ScanPayCode";
+// 引入modal弹框
+import Modal from "./../components/Modal";
 export default {
   name: "orderPay",
   components: {
+    Modal,
     ScanPayCode
   },
   data() {
@@ -96,7 +117,10 @@ export default {
       proDetail: [], //订单商品详情，包含商品列表
       showDetail1: false, //默认不展示订单详情
       showPay: false, //是否显示微信支付弹框
-      payImg: "" //微信支付的二维码地址
+      payImg: "", //微信支付的二维码地址
+      T: "", //定时器
+      showPayModal: false, //是否显示二次支付确认弹框
+      payment: 0 //订单总金额
     };
   },
   mounted() {
@@ -112,6 +136,8 @@ export default {
         this.addressInfo = `${item.receiverName} ${item.receiverMobile} ${item.receiverProvince} ${item.receiverCity} ${item.receiverDistrict} ${item.receiverAddress}`;
         // 商品详情
         this.proDetail = res.orderItemVoList;
+        // 商品订单总金额
+        this.payment = res.payment;
       });
     },
 
@@ -132,10 +158,12 @@ export default {
             //转换编码,链接转换为二维码
             QRCode.toDataURL(res.content)
               .then(url => {
-                // 点击支付跳出弹框
+                // 点击支付跳出弹框this
                 this.showPay = true;
                 // url转为二维码图片
                 this.payImg = url;
+                // 这里开始轮询订单状态
+                this.loopCartList();
               })
               .catch(() => {
                 this.$message.error("微信二维码生成失败，请稍后重试");
@@ -146,6 +174,26 @@ export default {
     // 关闭二维码弹框
     closePayModal() {
       this.showPay = false;
+      // 退出的时候弹出校验框，客户选择是否完成支付
+      this.showPayModal = true;
+    },
+
+    // 跳转到订单列表
+    goOrderList() {
+      this.$router.push("/order/list");
+    },
+
+    // 轮询当前订单支付状态
+    // 如果支付成功了就跳转到支付列表
+    loopCartList() {
+      this.T = setInterval(() => {
+        this.axios.get(`/orders/${this.orderId}`).then(res => {
+          if (res.status == 10) {
+            clearInterval(this.T);
+            this.goOrderList();
+          }
+        });
+      }, 1000);
     }
   }
 };
