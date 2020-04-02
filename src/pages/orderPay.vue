@@ -58,12 +58,12 @@
           <div
             class="pay pay-ali"
             :class="{ checked: payChoose == 1 }"
-            @click="payChoose = 1"
+            @click="paySubmit(1)"
           ></div>
           <div
             class="pay pay-wechat"
             :class="{ checked: payChoose == 2 }"
-            @click="payChoose = 2"
+            @click="paySubmit(2)"
           ></div>
         </div>
       </div>
@@ -76,7 +76,7 @@ export default {
   name: "orderPay",
   data() {
     return {
-      payChoose: 1, //支付方式默认选择支付宝
+      payChoose: "", //支付方式默认选择支付宝
       orderNo: this.$route.query.orderNo, //根据路由获取当前的orderName
       addressInfo: "", //收货人信息
       proDetail: [], //订单商品详情，包含商品列表
@@ -97,6 +97,14 @@ export default {
         // 商品详情
         this.proDetail = res.orderItemVoList;
       });
+    },
+
+    // 定义方法，判断支付方式，跳到对应的支付页面
+    // _blank，表示打开新窗口
+    paySubmit(payChoose) {
+      if (payChoose == 1) {
+        window.open("/#/order/alipay?orderId=" + this.orderNo, "_blank");
+      }
     }
   }
 };
