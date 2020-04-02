@@ -7,9 +7,7 @@
         <div class="submitNews">
           <h2>订单提交成功！去付款咯～</h2>
           <p>请在 <span> 0小时30分</span>内完成支付, 超时后将取消订单</p>
-          <p>
-            收货信息： 高丽 183****0972 北京 北京市 朝阳区 望京街道 望京(地铁站)
-          </p>
+          <p>收货信息：{{ addressInfo }}</p>
         </div>
         <div class="allPrice">
           <p>应付总额： <span> 2198元</span></p>
@@ -26,17 +24,24 @@
 
       <!-- 二 -->
       <div class="submitDetails" v-if="showDetail1">
-        <div class="orderNum">订单号：<span>5190702816411009</span></div>
+        <div class="orderNum">
+          订单号：<span>{{ orderNo }}</span>
+        </div>
         <div class="addressDetail">
-          收货信息：<span
-            >高丽 183****0972 北京 北京市 朝阳区 望京街道 望京(地铁站)</span
-          >
+          收货信息：<span>{{ addressInfo }}</span>
         </div>
         <div class="proDetail">
-          商品名称：<span
-            >小米8 青春 全网通版 6GB内存 深空灰 64GB 小米8青春版 标准高透贴膜
-            高透</span
-          >
+          商品名称：
+          <div class="proDetail2">
+            <ul>
+              <li v-for="(item, index) in proDetail" :key="index">
+                <img v-lazy="item.productImage" />
+                <span>
+                  {{ item.productName }}
+                </span>
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="invoiceInformation">
           发票信息：<span>电子发票 个人</span>
@@ -72,8 +77,27 @@ export default {
   data() {
     return {
       payChoose: 1, //支付方式默认选择支付宝
+      orderNo: this.$route.query.orderNo, //根据路由获取当前的orderName
+      addressInfo: "", //收货人信息
+      proDetail: [], //订单商品详情，包含商品列表
       showDetail1: false //默认不展示订单详情
     };
+  },
+  mounted() {
+    this.getOrderDetails();
+  },
+  methods: {
+    // 获取订单详情
+    getOrderDetails() {
+      this.axios.get(`/orders/${this.orderNo}`).then(res => {
+        // 收货人信息
+        let item = res.shippingVo;
+        // 收获信息
+        this.addressInfo = `${item.receiverName} ${item.receiverMobile} ${item.receiverProvince} ${item.receiverCity} ${item.receiverDistrict} ${item.receiverAddress}`;
+        // 商品详情
+        this.proDetail = res.orderItemVoList;
+      });
+    }
   }
 };
 </script>
@@ -126,6 +150,10 @@ export default {
           }
         }
         p:last-child {
+          // 防止地址过长影响页面样式
+          width: 600px;
+          height: 50px;
+          overflow-x: auto;
           margin-top: 10px;
           font-size: 14px;
           color: $colorC;
@@ -166,7 +194,7 @@ export default {
     // （二）
     .submitDetails {
       background-color: $colorG;
-      height: 237px;
+      height: 320px;
       padding-top: 47px;
       font-size: 14px;
       color: $colorB;
@@ -187,6 +215,22 @@ export default {
       }
       .proDetail {
         margin-top: 19px;
+        .proDetail2 {
+          height: 100px;
+          width: 600px;
+          margin-top: 9px;
+          overflow: auto;
+          ul {
+            li {
+              img {
+                width: 30px;
+                height: 30px;
+                vertical-align: middle;
+                margin-left: 26px;
+              }
+            }
+          }
+        }
       }
       .invoiceInformation {
         margin-top: 19px;

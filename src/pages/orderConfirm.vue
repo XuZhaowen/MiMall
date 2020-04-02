@@ -199,14 +199,14 @@
             <select name="city" id="" v-model="checkedItem.receiverCity">
               <option value="南京">南京</option>
               <option value="成都">成都</option>
-              <option value="浦东新区">浦东新区</option>
+              <option value="内江">内江</option>
             </select>
             <select name="area" id="" v-model="checkedItem.receiverDistrict">
               <option value="锡山区">锡山区</option>
               <option value="新区">新区</option>
               <option value="普陀区">普陀区</option>
               <option value="闵行区">闵行区</option>
-              <option value="锦江区">锦江区</option>
+              <option value="威远县">威远县</option>
             </select>
           </div>
           <!-- textarea输入框，可自行调节大小 -->
