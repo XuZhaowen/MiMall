@@ -2,7 +2,7 @@
   <div>
     <order-header title="我的购物车">
       <template v-slot:tip>
-        <span>温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算</span>
+        <span>温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算!</span>
       </template>
     </order-header>
     <div class="cartList">
@@ -183,10 +183,12 @@ export default {
 @import "./../assets/scss/mixin.scss";
 @import "./../assets/scss/base.scss";
 @import "./../assets/scss/button.scss";
+
 .cartList {
   height: 676px;
   background: $colorJ;
-  padding-top: 30px;
+  padding-top: 5px;
+  box-sizing: border-box;
   .container {
     .list {
       .check-box {

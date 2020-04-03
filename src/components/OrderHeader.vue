@@ -27,10 +27,12 @@ export default {
 
 <style lang="scss">
 @import "./../assets/scss/base.scss";
+@import "./../assets/scss/config.scss";
 .orderHeader {
   box-sizing: border-box;
   padding: 30px 0;
   border-bottom: 2px solid #ff6600;
+  background-color: $colorG;
   height: 112px;
 
   .header-logo {

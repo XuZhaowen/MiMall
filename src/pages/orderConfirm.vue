@@ -1,5 +1,10 @@
 <template>
   <div class="orderConfirm">
+    <order-header title="订单确认">
+      <template v-slot:tip>
+        <span>请认真填写收货地址！</span>
+      </template>
+    </order-header>
     <!-- 引入svg -->
     <svg
       version="1.1"
@@ -235,9 +240,11 @@
 
 <script>
 import Modal from "./../components/Modal";
+import OrderHeader from "./../components/OrderHeader";
 export default {
   name: "orderConfim",
   components: {
+    OrderHeader,
     Modal
   },
   data() {
@@ -410,7 +417,7 @@ export default {
 @import "./../assets/scss/base.scss";
 @import "./../assets/scss/button.scss";
 .orderConfirm {
-  height: 1080px;
+  height: 1192px;
   background-color: $colorJ;
   .container {
     .orderConfirm-main {

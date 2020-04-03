@@ -20,6 +20,7 @@ export default {
   props: ["img"],
   methods: {
     close() {
+      // 通过触发自定义事件.来给触发监听事件
       this.$emit("close");
     }
   }

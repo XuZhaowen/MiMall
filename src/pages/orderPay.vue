@@ -1,5 +1,10 @@
 <template>
   <div class="orderPay">
+    <order-header title="订单支付">
+      <template v-slot:tip>
+        <span>请谨防钓鱼链接或诈骗电话，了解更多！</span>
+      </template>
+    </order-header>
     <div class="container">
       <!-- 一 -->
       <div class="submitSuccess">
@@ -101,13 +106,16 @@
 import QRCode from "qrcode";
 // 引入支付页面
 import ScanPayCode from "./../components/ScanPayCode";
+
+import OrderHeader from "./../components/OrderHeader";
 // 引入modal弹框
 import Modal from "./../components/Modal";
 export default {
   name: "orderPay",
   components: {
     Modal,
-    ScanPayCode
+    ScanPayCode,
+    OrderHeader
   },
   data() {
     return {
@@ -193,7 +201,8 @@ export default {
             this.goOrderList();
           }
         });
-      }, 1000);
+        // 10秒页面自动跳转到订单列表
+      }, 10000);
     }
   }
 };
@@ -205,12 +214,14 @@ export default {
 @import "./../assets/scss/base.scss";
 @import "./../assets/scss/button.scss";
 .orderPay {
-  height: 906px;
+  height: 1018px;
   background-color: $colorJ;
-  padding-top: 30px;
+  // padding-top: 30px;
   .container {
     //（一）
     .submitSuccess {
+      position: relative;
+      top: 30px;
       height: 230px;
       background-color: $colorG;
       // 解决padding撑大的问题
@@ -257,6 +268,7 @@ export default {
         }
       }
       .allPrice {
+        box-sizing: border-box;
         padding-top: 19px;
         font-size: 14px;
         color: $colorC;
@@ -290,6 +302,7 @@ export default {
     }
     // （二）
     .submitDetails {
+      box-sizing: border-box;
       background-color: $colorG;
       height: 320px;
       padding-top: 47px;
@@ -336,7 +349,9 @@ export default {
 
     // （三）
     .payment-method {
-      margin-top: 30px;
+      position: relative;
+      top: 30px;
+      margin-top: 20px;
       height: 270px;
       background-color: $colorG;
 
