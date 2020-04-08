@@ -6,8 +6,8 @@ import Index from './pages/index'
 // import Detail from './pages/detail'
 // import Login from './pages/login'
 
-import Order from './pages/order'
-import OrderList from './pages/orderList'
+// import Order from './pages/order'
+// import OrderList from './pages/orderList'
 import OrderConfirm from './pages/orderConfirm'
 import OrderPay from './pages/orderPay'
 import AliPay from './pages/alipay'
@@ -50,18 +50,18 @@ export default new Router({
         {
             path: '/login',
             name: 'login',
-            component: resolve => require(['./pages/login.vue'], resolve),
+            component: () => import('./pages/login.vue'),
         },
         {
             path: '/order',
             name: 'order',
-            component: Order,
+            component: () => import('./pages/order.vue'),
             children: [
                 {
                     path: 'list',
                     name: 'order-list',
                     // 订单
-                    component: OrderList
+                    component: () => import('./pages/orderList.vue'),
                 },
                 {
                     path: 'confirm',
