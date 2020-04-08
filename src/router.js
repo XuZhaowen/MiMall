@@ -8,11 +8,11 @@ import Index from './pages/index'
 
 // import Order from './pages/order'
 // import OrderList from './pages/orderList'
-import OrderConfirm from './pages/orderConfirm'
-import OrderPay from './pages/orderPay'
-import AliPay from './pages/alipay'
+// import OrderConfirm from './pages/orderConfirm'
+// import OrderPay from './pages/orderPay'
+// import AliPay from './pages/alipay'
 
-import Cart from './pages/cart'
+// import Cart from './pages/cart'
 
 Vue.use(Router)
 
@@ -33,19 +33,19 @@ export default new Router({
                 {
                     path: '/product/:id',
                     name: 'product',
-                    component: resolve => require(['./pages/index.vue'], resolve),
+                    component: () => import('./pages/product.vue'),
                 },
                 {
                     path: '/detail/:id',
                     name: 'detail',
-                    component: resolve => require(['./pages/detail.vue'], resolve),
+                    component: () => import('./pages/detail.vue'),
                 }
             ]
         },
         {
             path: '/cart',
             name: 'cart',
-            component: Cart
+            component: () => import('./pages/cart.vue'),
         },
         {
             path: '/login',
@@ -67,19 +67,19 @@ export default new Router({
                     path: 'confirm',
                     name: 'order-confirm',
                     // 订单确认
-                    component: OrderConfirm
+                    component: () => import('./pages/orderConfirm.vue'),
                 },
                 {
                     path: 'pay',
                     name: 'order-pay',
                     // 支付页面
-                    component: OrderPay
+                    component: () => import('./pages/orderPay.vue'),
                 },
                 {
                     path: 'alipay',
                     name: 'alipay',
                     // 跳转到支付宝的中转页面
-                    component: AliPay,
+                    component: () => import('./pages/alipay.vue'),
                 }
             ]
         }

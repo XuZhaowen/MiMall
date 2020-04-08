@@ -17,6 +17,10 @@ module.exports = {
     // publicPath: '/app',
     // outputDir: 'dist',
     // 不显示js里面的.map文件
-    productionSourceMap: false
+    productionSourceMap: false,
+    // 删除预加载
+    chainWebpack: (config) => {
+        config.plugins.delete('prefetch')
+    }
 
 }
